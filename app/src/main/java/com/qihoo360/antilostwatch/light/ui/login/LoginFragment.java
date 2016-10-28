@@ -2,34 +2,28 @@ package com.qihoo360.antilostwatch.light.ui.login;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.qihoo360.antilostwatch.light.R;
+import com.qihoo360.antilostwatch.light.base.BaseFragment;
 
 /**
  * Created by HuirongZhang on 2016/10/25.
  */
 
-public class LoginFragment extends Fragment implements LoginContract.View, View.OnClickListener {
+public class LoginFragment extends BaseFragment<LoginContract.Presenter> implements LoginContract.View {
 
     private EditText mNameET;
     private EditText mPwdET;
     private Button mLoginBtn;
 
-    private LoginContract.Presenter mPresenter;
-
     public static LoginFragment newInstance() {
         return new LoginFragment();
-    }
-
-    @Override
-    public void setPresenter(LoginContract.Presenter presenter) {
-        mPresenter = presenter;
     }
 
     @Nullable
@@ -49,5 +43,10 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
         if (v == mLoginBtn) {
             mPresenter.login(mNameET.getText().toString(), mPwdET.getText().toString());
         }
+    }
+
+    @Override
+    public void success() {
+        Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
     }
 }

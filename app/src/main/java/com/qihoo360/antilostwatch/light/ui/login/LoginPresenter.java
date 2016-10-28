@@ -1,25 +1,22 @@
 package com.qihoo360.antilostwatch.light.ui.login;
 
-import com.qihoo360.antilostwatch.light.account.Login;
-import com.qihoo360.antilostwatch.light.utils.MD5Utils;
+import com.qihoo360.antilostwatch.light.api.ApiCallBack;
+import com.qihoo360.antilostwatch.light.base.BaseCommonPresenter;
+
+import rx.Subscription;
 
 /**
  * Created by HuirongZhang on 2016/10/25.
  */
 
-public class LoginPresenter implements LoginContract.Presenter {
+public class LoginPresenter extends BaseCommonPresenter<LoginContract.View> implements LoginContract.Presenter {
 
-    private LoginContract.View mLoginView;
-
-    public LoginPresenter(LoginContract.View loginView) {
-        mLoginView = loginView;
-        mLoginView.setPresenter(this);
+    public LoginPresenter(LoginContract.View view) {
+        super(view);
     }
 
     @Override
     public void login(String name, String pwd) {
-        Login login = new Login(name, MD5Utils.getMD5code(pwd));
-        login.doLogin();
     }
 
     @Override

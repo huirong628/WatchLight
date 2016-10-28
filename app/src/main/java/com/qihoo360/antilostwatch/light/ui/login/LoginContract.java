@@ -9,8 +9,8 @@ import com.qihoo360.antilostwatch.light.base.BaseView;
 
 public interface LoginContract {
 
-    interface View extends BaseView<Presenter> {
-
+    interface View extends BaseView {
+        void success();
     }
 
     interface Presenter extends BasePresenter {

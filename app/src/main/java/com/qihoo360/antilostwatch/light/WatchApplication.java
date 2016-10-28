@@ -1,4 +1,4 @@
-package com.qihoo360.antilostwatch.light.base;
+package com.qihoo360.antilostwatch.light;
 
 import android.app.Application;
 

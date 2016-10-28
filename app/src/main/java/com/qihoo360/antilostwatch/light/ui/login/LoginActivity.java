@@ -12,6 +12,7 @@ import com.qihoo360.antilostwatch.light.utils.ActivityUtils;
  */
 
 public class LoginActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +23,6 @@ public class LoginActivity extends AppCompatActivity {
             loginFragment = LoginFragment.newInstance();
         }
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), loginFragment, R.id.contentFrame);
-        new LoginPresenter(loginFragment);
+        loginFragment.createPresenter(new LoginPresenter(loginFragment));
     }
 }
