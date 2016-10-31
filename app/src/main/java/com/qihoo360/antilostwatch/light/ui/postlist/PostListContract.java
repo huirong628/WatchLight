@@ -2,7 +2,7 @@ package com.qihoo360.antilostwatch.light.ui.postlist;
 
 import com.qihoo360.antilostwatch.light.base.BasePresenter;
 import com.qihoo360.antilostwatch.light.base.BaseView;
-import com.qihoo360.antilostwatch.light.data.model.Post;
+import com.qihoo360.antilostwatch.light.data.bean.PostBean;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface PostListContract {
     interface View extends BaseView {
-        void onPostListLoaded(List<Post> postList);
+        void onPostListLoaded(List<PostBean> postList);
     }
 
     interface Presenter extends BasePresenter {

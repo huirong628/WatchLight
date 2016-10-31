@@ -1,6 +1,8 @@
 package com.qihoo360.antilostwatch.light.api;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Calendar;
 
 import okhttp3.FormBody;
@@ -22,20 +24,19 @@ import okio.Buffer;
  */
 
 public class ApiParamsInterceptor implements Interceptor {
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         Request.Builder requestBuilder = request.newBuilder();
         RequestBody requestBody = new FormBody.Builder()
-                .add("timestamp", getTimestamp())
-                .add("m2", getM2())
+                .add("timestamp", getURLEncoder(getTimestamp()))
+                .add("m2", getURLEncoder(getM2()))
                 .build();
         String postBodyString = bodyToString(request.body());
         postBodyString += (postBodyString.length() > 0) ? "&" : "" + bodyToString(requestBody);
-        System.out.println("postBodyString = " + postBodyString);
         request = requestBuilder.post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), postBodyString)).build();
         Response response = chain.proceed(request);
-        System.out.println("response********* = " + response.body().string());
         return response;
     }
 
@@ -64,5 +65,42 @@ public class ApiParamsInterceptor implements Interceptor {
         } catch (final IOException e) {
             return "did not work";
         }
+    }
+
+    public static String getURLEncoder(String content) {
+        if (content == null || content.length() == 0) {
+            return content;
+        }
+
+        try {
+            content = URLEncoder.encode(content, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+
+        }
+
+        return content;
+    }
+
+    protected String decryptResult(byte[] result) throws Exception {
+        String resultStr = decryptResultFromServer(result, null);
+        return resultStr;
+    }
+
+    public static String decryptResultFromServer(byte[] result, String rc4Key) throws Exception {
+        if (result == null) {
+            return null;
+        }
+        String jsonStr = "";
+        String temp = "";
+        temp = new String(result, "UTF-8");
+        temp = temp.trim();
+        if (temp.startsWith("{") && temp.endsWith("}")) {
+            jsonStr = temp;
+        } else if (temp.startsWith("<html>") && temp.endsWith("</html>")) {
+            jsonStr = "";
+        } else {
+            //jsonStr = decryptResult(result, rc4Key);
+        }
+        return jsonStr;
     }
 }
