@@ -19,4 +19,12 @@ public class PostBean {
 
     @SerializedName("summary")
     private String summary;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
 }

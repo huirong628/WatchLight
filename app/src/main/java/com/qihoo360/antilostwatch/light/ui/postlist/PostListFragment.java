@@ -37,7 +37,7 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mAdapter = new PostListAdapter();
+        mAdapter = new PostListAdapter(getActivity());
         mPostLV.setAdapter(mAdapter);
         mPresenter.loadPostList();
     }
@@ -49,6 +49,7 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
 
     @Override
     public void onPostListLoaded(PostList postList) {
+        mAdapter.setData(postList.getPostList());
         mAdapter.notifyDataSetChanged();
     }
 }
