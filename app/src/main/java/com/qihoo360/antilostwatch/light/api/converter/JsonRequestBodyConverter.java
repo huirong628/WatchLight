@@ -1,4 +1,4 @@
-package com.qihoo360.antilostwatch.light.api;
+package com.qihoo360.antilostwatch.light.api.converter;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;

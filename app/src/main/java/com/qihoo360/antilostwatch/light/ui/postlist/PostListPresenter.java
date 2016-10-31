@@ -42,27 +42,23 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
 
         String token = "";
         String p = getURLEncoder(encryptRc4());
-        mApiWrapper.loadPostList(token, p);
-
-        /*OkHttpClient okHttpClient = new OkHttpClient();
-        String time = String.valueOf(Calendar.getInstance().getTimeInMillis() / 1000);
-        String m2 = "add72710293144865e2d8c053bf3b28a";
-        final Request request = new Request.Builder()
-                .url("https://m.baby.360.cn/talk/recommend/more?token=&m2=add72710293144865e2d8c053bf3b28a")
-                .build();
-        request.header("kids-Android");
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
+        mApiWrapper.loadPostList(token, p, new Observer<PostList>() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                System.out.println("onFailure,e = " + e.getMessage());
+            public void onCompleted() {
+                System.out.println("onCompleted()");
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                System.out.println("onResponse(),response = " + response.body().toString());
+            public void onError(Throwable e) {
+                System.out.println("onError(),e.getMessage() = " + e.getMessage());
             }
-        });*/
+
+            @Override
+            public void onNext(PostList postList) {
+                mView.onPostListLoaded(postList);
+                System.out.println("onNext(),retcode = " + postList.getRetCode() + ",errcode = " + postList.getErrCode());
+            }
+        });
     }
 
     private String encryptRc4() {

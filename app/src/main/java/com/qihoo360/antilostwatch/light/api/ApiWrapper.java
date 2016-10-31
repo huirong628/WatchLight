@@ -5,14 +5,6 @@ import com.qihoo360.antilostwatch.light.data.bean.PostList;
 import com.qihoo360.antilostwatch.light.utils.EncryptRC4;
 import com.qihoo360.antilostwatch.light.utils.MD5Utils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -26,36 +18,18 @@ import rx.schedulers.Schedulers;
 
 public class ApiWrapper extends Api {
 
-    public void loadPostList(Observer<PostList> observer) {
-        // applySchedulers(getApiService().loadPostList(), observer);
-
-       /* Call<ResponseBody> call = getApiService().loadPostList();
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    System.out.println("APi*******" + response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });*/
+    public void loadPostList(String token, String p, Observer<PostList> observer) {
+        applySchedulers(getApiService().loadPostList(token, p), observer);
     }
 
     public static <T> void applySchedulers(Observable<T> observable, Observer<T> observer) {
         observable.subscribeOn(Schedulers.io())
-                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
 
     public void loadPostList(String token, String p) {
-        Call<ResponseBody> call = getApiService().loadPostList(token, p);
+        /*Call<ResponseBody> call = getApiService().loadPostList(token, p);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -74,17 +48,21 @@ public class ApiWrapper extends Api {
                         byte[] result = response.body().bytes();
                         String decryptResult = decryptResult(result);
                         System.out.println("decryptResult = " + decryptResult);
+                        *//**
+         * 返回ResponseBody类型的数据后先进行解密，之后在返回Json字符串
+         *//*
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
+                call.cancel();
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 System.out.println("onFailure()" + t.getLocalizedMessage());
             }
-        });
+        });*/
     }
 
     protected String decryptResult(byte[] result) throws Exception {

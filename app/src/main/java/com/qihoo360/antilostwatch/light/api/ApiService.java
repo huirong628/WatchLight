@@ -4,11 +4,8 @@ package com.qihoo360.antilostwatch.light.api;
 import com.qihoo360.antilostwatch.light.data.bean.PostList;
 
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -42,5 +39,5 @@ public interface ApiService {
      * Use annotations to describe the HTTP request:
      */
     @GET("http://m.baby.360.cn/talk/recommend/refresh")
-    Call<ResponseBody> loadPostList(@Query("token") String token, @Query("p") String p);
+    Observable<PostList> loadPostList(@Query("token") String token, @Query("p") String p);
 }

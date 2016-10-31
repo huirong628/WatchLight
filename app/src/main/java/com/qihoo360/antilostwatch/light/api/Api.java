@@ -2,6 +2,7 @@ package com.qihoo360.antilostwatch.light.api;
 
 
 import com.qihoo360.antilostwatch.light.WatchApplication;
+import com.qihoo360.antilostwatch.light.api.converter.JsonConverterFactory;
 import com.qihoo360.antilostwatch.light.api.interceptor.UserAgentInterceptor;
 
 import java.io.File;
@@ -57,6 +58,8 @@ public class Api {
             mRetrofit = new Retrofit.Builder()
                     .client(client)
                     .baseUrl(BASE_URL)
+                    .addConverterFactory(JsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
         }
         return mRetrofit;
