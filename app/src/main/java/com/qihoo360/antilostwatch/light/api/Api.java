@@ -3,20 +3,17 @@ package com.qihoo360.antilostwatch.light.api;
 
 import com.qihoo360.antilostwatch.light.WatchApplication;
 import com.qihoo360.antilostwatch.light.api.converter.JsonConverterFactory;
+import com.qihoo360.antilostwatch.light.api.interceptor.ParamsInterceptor;
 import com.qihoo360.antilostwatch.light.api.interceptor.UserAgentInterceptor;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by HuirongZhang on 2016/10/25.
@@ -30,7 +27,6 @@ public class Api {
     private static final String BASE_URL = "http://m.baby.360.cn/";
 
     private static Retrofit mRetrofit;
-    private static OkHttpClient mOkHttpClient;
     private static ApiService mApiService;
 
     /**
@@ -51,6 +47,7 @@ public class Api {
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(interceptor)
                     .addInterceptor(new UserAgentInterceptor())
+                    .addInterceptor(new ParamsInterceptor())
                     .connectTimeout(15, TimeUnit.SECONDS)
                     .cache(cache)
                     .build();
@@ -66,22 +63,6 @@ public class Api {
     }
 
     /**
-     * 获取OkHttpClient对象
-     *
-     * @return
-     */
-    private static OkHttpClient getOkHttpClient() {
-        if (mOkHttpClient == null) {
-            mOkHttpClient = new OkHttpClient.Builder()
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .build();
-        }
-        return mOkHttpClient;
-    }
-
-    /**
      * 获取ApiService
      *
      * @return
@@ -91,19 +72,4 @@ public class Api {
         return mApiService;
     }
 
-    public static class APIException extends Exception {
-        public String code;
-        public String message;
-
-        public APIException(String code, String message) {
-            this.code = code;
-            this.message = message;
-        }
-
-        @Override
-        public String getMessage() {
-            return message;
-        }
-
-    }
 }
