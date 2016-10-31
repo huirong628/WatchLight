@@ -21,7 +21,7 @@ public class ApiWrapper extends Api {
     }
 
     public void loadPostList(int count, Observer<PostList> observer) {
-        applySchedulers(getApiService().loadPostList("", ""), observer);
+        applySchedulers(getApiService().loadPostList(count), observer);
     }
 
     public static <T> void applySchedulers(Observable<T> observable, Observer<T> observer) {

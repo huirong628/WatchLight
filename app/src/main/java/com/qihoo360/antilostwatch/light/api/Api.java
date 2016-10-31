@@ -47,7 +47,6 @@ public class Api {
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(interceptor)
                     .addInterceptor(new UserAgentInterceptor())
-                    .addInterceptor(new ParamsInterceptor())
                     .connectTimeout(15, TimeUnit.SECONDS)
                     .cache(cache)
                     .build();
