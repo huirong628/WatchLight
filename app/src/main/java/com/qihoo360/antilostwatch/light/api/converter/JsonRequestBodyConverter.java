@@ -33,7 +33,7 @@ public class JsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
         System.out.println("convert = " + param);
         //处理token 和 p
         String token = "";
-        String p = getURLEncoder(encryptRc4(param));
+        String p = getURLEncoder(encryptRc4());
         String result = "token=&p=" + p;
         System.out.println("JsonRequestBodyConverter.result =" + result);
         return RequestBody.create(MEDIA_TYPE, result);
