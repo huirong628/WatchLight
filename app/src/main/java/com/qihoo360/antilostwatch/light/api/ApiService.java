@@ -40,9 +40,9 @@ public interface ApiService {
      * ***********************************************************************************
      * Use annotations to describe the HTTP request:
      */
-    @GET("http://m.baby.360.cn/talk/recommend/refresh")
+    @GET("talk/recommend/refresh")
     Observable<PostList> loadPostList(@Query("token") String token, @Query("p") String p);
 
-    @POST("http://m.baby.360.cn/talk/recommend/refresh")
+    @POST("talk/recommend/refresh")
     Observable<PostList> loadPostList(@Body int count);
 }

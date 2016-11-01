@@ -1,11 +1,11 @@
 package com.qihoo360.antilostwatch.light.api.converter;
 
 import com.google.gson.Gson;
-import com.qihoo360.antilostwatch.light.data.bean.PostList;
 import com.qihoo360.antilostwatch.light.utils.EncryptRC4;
 import com.qihoo360.antilostwatch.light.utils.MD5Utils;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
@@ -17,9 +17,11 @@ import retrofit2.Converter;
 public class JsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
 
     private final Gson mGson;
+    private final Type mType;
 
-    public JsonResponseBodyConverter(Gson gson) {
+    public JsonResponseBodyConverter(Gson gson, Type type) {
         this.mGson = gson;
+        this.mType = type;
     }
 
     @Override
@@ -32,8 +34,8 @@ public class JsonResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        PostList postList = mGson.fromJson(decryptResult, PostList.class);
-        return (T) postList;
+        T postList = mGson.fromJson(decryptResult, mType);
+        return postList;
     }
 
     protected String decryptResult(byte[] result) throws Exception {

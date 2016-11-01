@@ -31,9 +31,9 @@ public class JsonConverterFactory extends Converter.Factory {
     }
 
     @Override
-    public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations,
-                                                            Retrofit retrofit) {
-        return new JsonResponseBodyConverter<>(mGson); //响应
+    public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+        System.out.println("responseBodyConverter,type = " + type);
+        return new JsonResponseBodyConverter<>(mGson, type); //响应
     }
 
     @Override
