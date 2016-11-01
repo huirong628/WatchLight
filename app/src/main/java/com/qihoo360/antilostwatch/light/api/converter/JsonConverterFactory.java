@@ -38,7 +38,7 @@ public class JsonConverterFactory extends Converter.Factory {
 
     @Override
     public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
-        return new JsonRequestBodyConverter<>();
+        return null;//new JsonRequestBodyConverter<>();
     }
 
     /**
@@ -53,6 +53,6 @@ public class JsonConverterFactory extends Converter.Factory {
      */
     @Override
     public Converter<?, String> stringConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        return new StringRequestBodyConverter<>();
+        return null;//new StringRequestBodyConverter<>();
     }
 }

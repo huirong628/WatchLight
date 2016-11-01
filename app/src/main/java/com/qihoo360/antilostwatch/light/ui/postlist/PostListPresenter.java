@@ -11,6 +11,8 @@ import com.qihoo360.antilostwatch.light.utils.MD5Utils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import rx.Observer;
 
@@ -38,8 +40,8 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
     @Override
     public void loadPostList() {
         //向服务端发送请求，获取数据，更新UI。
-        int count = 20;
-        mApiWrapper.loadPostList(count, new Observer<PostList>() {
+        mApiWrapper.mOptions.put("count", String.valueOf(20));
+        mApiWrapper.loadPostList(new Observer<PostList>() {
             @Override
             public void onCompleted() {
                 System.out.println("onCompleted()");

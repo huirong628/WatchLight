@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Converter;
 
@@ -18,12 +20,19 @@ import retrofit2.Converter;
  */
 
 public class StringRequestBodyConverter<T> implements Converter<T, String> {
+    private Map<String, String> mOptions = new HashMap<String, String>();
+
+    public StringRequestBodyConverter() {
+        mOptions.put("timestamp", getTimestamp());
+        mOptions.put("m2", getM2());
+    }
 
     @Override
     public String convert(T value) throws IOException {
         String count = String.valueOf(value);
         String p = getURLEncoder(encryptRc4(getEncodeParam(Integer.valueOf(count))));
         String result = "token=&p=" + p;
+        System.out.println("StringRequestBodyConverter.result =" + result);
         return result;
     }
 
@@ -64,6 +73,10 @@ public class StringRequestBodyConverter<T> implements Converter<T, String> {
 
     public static String getTimestamp() {
         return String.valueOf(Calendar.getInstance().getTimeInMillis() / 1000); // 时间戳（单位秒）
+    }
+
+    public static String getM2() {
+        return "add72710293144865e2d8c053bf3b28a";
     }
 
     public static String getURLEncoder(String content) {

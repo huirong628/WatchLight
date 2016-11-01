@@ -4,10 +4,13 @@ package com.qihoo360.antilostwatch.light.api;
 import com.qihoo360.antilostwatch.light.data.bean.PostList;
 
 
+import java.util.Map;
+
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -45,4 +48,7 @@ public interface ApiService {
 
     @POST("talk/recommend/refresh")
     Observable<PostList> loadPostList(@Body int count);
+
+    @GET("talk/recommend/refresh")
+    Observable<PostList> loadPostList(@QueryMap Map<String, String> options);
 }
