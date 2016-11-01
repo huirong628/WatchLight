@@ -26,16 +26,14 @@ public class JsonResponseBodyConverter<T> implements Converter<ResponseBody, T> 
 
     @Override
     public T convert(ResponseBody responseBody) throws IOException {
-        byte[] result = responseBody.bytes();
-        String decryptResult = null;
+        byte[] bytes = responseBody.bytes();
+        String json = null;
         try {
-            decryptResult = decryptResult(result);
-            System.out.println("decryptResult = " + decryptResult);
+            json = decryptResult(bytes);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        T postList = mGson.fromJson(decryptResult, mType);
-        return postList;
+        return mGson.fromJson(json, mType);
     }
 
     protected String decryptResult(byte[] result) throws Exception {
