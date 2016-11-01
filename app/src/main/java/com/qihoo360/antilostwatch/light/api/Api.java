@@ -3,7 +3,6 @@ package com.qihoo360.antilostwatch.light.api;
 
 import com.qihoo360.antilostwatch.light.WatchApplication;
 import com.qihoo360.antilostwatch.light.api.converter.JsonConverterFactory;
-import com.qihoo360.antilostwatch.light.api.interceptor.ParamsInterceptor;
 import com.qihoo360.antilostwatch.light.api.interceptor.UserAgentInterceptor;
 
 import java.io.File;
