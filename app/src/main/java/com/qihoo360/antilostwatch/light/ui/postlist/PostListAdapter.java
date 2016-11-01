@@ -60,7 +60,7 @@ public class PostListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         PostBean bean = (PostBean) getItem(position);
-        holder.title.setText(bean.getTitle());
+        holder.title.setText(bean.getTitle() + " 第" + position + "条");
         holder.summary.setText(bean.getSummary());
         return convertView;
     }

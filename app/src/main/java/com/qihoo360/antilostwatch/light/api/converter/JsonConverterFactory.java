@@ -43,7 +43,7 @@ public class JsonConverterFactory extends Converter.Factory {
 
     /**
      * 这里用于对Field、FieldMap、Header、Path、Query、QueryMap注解的处理
-     *
+     * <p>
      * Retrfofit对于上面的几个注解默认使用的是调用toString方法
      *
      * @param type
@@ -53,6 +53,6 @@ public class JsonConverterFactory extends Converter.Factory {
      */
     @Override
     public Converter<?, String> stringConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        return null;//new StringRequestBodyConverter<>();
+        return new StringRequestBodyConverter<>();
     }
 }

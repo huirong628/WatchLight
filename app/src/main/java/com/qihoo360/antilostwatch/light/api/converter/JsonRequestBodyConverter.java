@@ -30,17 +30,11 @@ public class JsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
     @Override
     public RequestBody convert(T value) throws IOException {
         String param = value.toString();
-        System.out.println("convert = " + param);
-        //处理token 和 p
         String token = "";
-        String p = getURLEncoder(encryptRc4());
-        String result = "token=&p=" + p;
+        String p = getURLEncoder(encryptRc4(getEncodeParam(Integer.valueOf(param))));
+        String result = "token=" + token + "&p=" + p;
         System.out.println("JsonRequestBodyConverter.result =" + result);
         return RequestBody.create(MEDIA_TYPE, result);
-    }
-
-    private String encryptRc4() {
-        return encryptRc4(getEncodeParam());
     }
 
     public static String encryptRc4(String source) {
@@ -71,7 +65,7 @@ public class JsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
         return rc4key;
     }
 
-    private String getEncodeParam() {
+    private String getEncodeParam(int count) {
         String timestamp = getTimestamp();
         String m2 = "add72710293144865e2d8c053bf3b28a";
         String source = "timestamp=" + getURLEncoder(timestamp) + "&" + "m2=" + getURLEncoder(m2);
