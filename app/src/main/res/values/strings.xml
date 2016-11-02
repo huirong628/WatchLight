@@ -1,3 +1,9 @@
 <resources>
 	<string name="app_name">AntiLostWatchLight</string>
+
+	<string name="enter_your_number">Enter your number</string>
+	<string name="password">password</string>
+	<string name="login">LOGIN</string>
+	<string name="go">GO</string>
+	<string name="forgot_your_password">Forget your password ?</string>
 </resources>

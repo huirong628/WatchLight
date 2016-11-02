@@ -32,7 +32,7 @@ public class LoginFragment extends BaseFragment<LoginContract.Presenter> impleme
         View root = inflater.inflate(R.layout.login_fragment, container, false);
         mNameET = (EditText) root.findViewById(R.id.name_et);
         mPwdET = (EditText) root.findViewById(R.id.pwd_et);
-        mLoginBtn = (Button) root.findViewById(R.id.login_btn);
+        mLoginBtn = (Button) root.findViewById(R.id.bt_go);
         mLoginBtn.setOnClickListener(this);
         return root;
     }
