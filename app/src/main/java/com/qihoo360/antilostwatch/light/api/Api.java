@@ -33,7 +33,7 @@ public class Api {
      *
      * @return
      */
-    private static Retrofit getRetrofit() {
+    protected static Retrofit getRetrofit() {
         if (mRetrofit == null) {
             // log拦截器  打印所有的log
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -51,23 +51,12 @@ public class Api {
                     .build();
 
             mRetrofit = new Retrofit.Builder()
-                    .client(client)
                     .baseUrl(BASE_URL)
+                    .client(client)
                     .addConverterFactory(JsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
         }
         return mRetrofit;
     }
-
-    /**
-     * 获取ApiService
-     *
-     * @return
-     */
-    protected static ApiService getApiService() {
-        mApiService = getRetrofit().create(ApiService.class);
-        return mApiService;
-    }
-
 }

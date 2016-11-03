@@ -9,10 +9,7 @@ import android.widget.ListView;
 
 import com.qihoo360.antilostwatch.light.R;
 import com.qihoo360.antilostwatch.light.base.BaseFragment;
-import com.qihoo360.antilostwatch.light.data.bean.PostBean;
-import com.qihoo360.antilostwatch.light.data.bean.PostList;
-
-import java.util.List;
+import com.qihoo360.antilostwatch.light.data.bean.talkbean.PostList;
 
 /**
  * Created by HuirongZhang on 2016/10/26.
@@ -51,5 +48,10 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
     public void onPostListLoaded(PostList postList) {
         mAdapter.setData(postList.getPostList());
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onMorePostListLoaded(PostList postList) {
+
     }
 }

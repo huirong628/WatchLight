@@ -4,7 +4,11 @@ package com.qihoo360.antilostwatch.light.api;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.qihoo360.antilostwatch.light.data.bean.PostList;
+import com.qihoo360.antilostwatch.light.api.service.ContactApiService;
+import com.qihoo360.antilostwatch.light.api.service.PhotoApiService;
+import com.qihoo360.antilostwatch.light.api.service.TalkApiService;
+import com.qihoo360.antilostwatch.light.api.service.WiFiApiService;
+import com.qihoo360.antilostwatch.light.data.bean.talkbean.PostList;
 import com.qihoo360.antilostwatch.light.utils.EncryptRC4;
 import com.qihoo360.antilostwatch.light.utils.MD5Utils;
 
@@ -26,6 +30,39 @@ import rx.schedulers.Schedulers;
  */
 
 public class ApiWrapper extends Api {
+
+    private static ApiService mApiService;
+    private static TalkApiService mTalkApiService;
+    private static ContactApiService mContactApiService;
+    private static PhotoApiService mPhotoApiService;
+    private static WiFiApiService mWiFiApiService;
+
+    public ApiWrapper() {
+        mApiService = getRetrofit().create(ApiService.class);
+    }
+
+    public static ApiService getApiService() {
+        return mApiService;
+    }
+
+    public static TalkApiService getTalkApiService() {
+        return mTalkApiService;
+    }
+
+    public static ContactApiService getContactApiService() {
+        return mContactApiService;
+    }
+
+    public static PhotoApiService getPhotoApiService() {
+        return mPhotoApiService;
+    }
+
+    public static WiFiApiService getWiFiApiService() {
+        return mWiFiApiService;
+    }
+
+
+
     public Map<String, String> mOptions = new HashMap<String, String>();
 
     public void loadPostList(Observer<PostList> observer) {
@@ -36,6 +73,10 @@ public class ApiWrapper extends Api {
         map.put("p", p);
         map.put("token", "");
         applySchedulers(getApiService().loadPostList(map), observer);
+    }
+
+    public void loadMorePostList() {
+
     }
 
     public static <T> void applySchedulers(Observable<T> observable, Observer<T> observer) {

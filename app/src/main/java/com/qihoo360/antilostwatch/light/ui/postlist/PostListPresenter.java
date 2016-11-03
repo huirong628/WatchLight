@@ -1,18 +1,7 @@
 package com.qihoo360.antilostwatch.light.ui.postlist;
 
-import android.text.TextUtils;
-import android.util.Base64;
-
 import com.qihoo360.antilostwatch.light.base.BaseCommonPresenter;
-import com.qihoo360.antilostwatch.light.data.bean.PostList;
-import com.qihoo360.antilostwatch.light.utils.EncryptRC4;
-import com.qihoo360.antilostwatch.light.utils.MD5Utils;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import com.qihoo360.antilostwatch.light.data.bean.talkbean.PostList;
 
 import rx.Observer;
 
@@ -58,5 +47,10 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
                 System.out.println("onNext(),retcode = " + postList.getRetCode() + ",errcode = " + postList.getErrCode());
             }
         });
+    }
+
+    @Override
+    public void loadMorePostList() {
+
     }
 }

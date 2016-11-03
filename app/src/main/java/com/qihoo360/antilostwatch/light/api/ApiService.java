@@ -1,15 +1,13 @@
 package com.qihoo360.antilostwatch.light.api;
 
 
-import com.qihoo360.antilostwatch.light.data.bean.PostList;
+import com.qihoo360.antilostwatch.light.data.bean.talkbean.PostList;
+import com.qihoo360.antilostwatch.light.data.bean.talkbean.TopicList;
 
 
 import java.util.Map;
 
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -43,12 +41,16 @@ public interface ApiService {
      * ***********************************************************************************
      * Use annotations to describe the HTTP request:
      */
-    @GET("talk/recommend/refresh")
-    Observable<PostList> loadPostList(@Query("token") String token, @Query("p") String p);
-
-    @POST("talk/recommend/refresh")
-    Observable<PostList> loadPostList(@Body int count);
 
     @GET("talk/recommend/refresh")
     Observable<PostList> loadPostList(@QueryMap Map<String, String> options);
+
+    @GET("talk/recommend/more")
+    Observable<PostList> loadMorePostList(@QueryMap Map<String, String> options);
+
+    @GET("talk/topic/refreshhottesttopic")
+    Observable<TopicList> loadTopicList(@QueryMap Map<String, String> options);
+
+    @GET("talk/topic/morehottesttopic")
+    Observable<TopicList> loadMoreTopicList(@QueryMap Map<String, String> options);
 }
