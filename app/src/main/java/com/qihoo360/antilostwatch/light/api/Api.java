@@ -1,6 +1,7 @@
 package com.qihoo360.antilostwatch.light.api;
 
 
+import com.qihoo360.antilostwatch.light.BuildConfig;
 import com.qihoo360.antilostwatch.light.WatchApplication;
 import com.qihoo360.antilostwatch.light.api.converter.JsonConverterFactory;
 import com.qihoo360.antilostwatch.light.api.interceptor.UserAgentInterceptor;
@@ -25,8 +26,26 @@ public class Api {
      */
     private static final String BASE_URL = "http://m.baby.360.cn/";
 
+    private static OkHttpClient mOkHttpClient;
     private static Retrofit mRetrofit;
-    private static ApiService mApiService;
+
+    private static void initOkHttpClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+        File cacheFile = new File(WatchApplication.getInstance().getCacheDir(), "cache");
+        Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);
+
+        builder.addInterceptor(new UserAgentInterceptor())
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .cache(cache);
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(loggingInterceptor);
+        }
+        mOkHttpClient = builder.build();
+    }
 
     /**
      * 获取Retrofit对象
@@ -35,24 +54,10 @@ public class Api {
      */
     protected static Retrofit getRetrofit() {
         if (mRetrofit == null) {
-            // log拦截器  打印所有的log
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            //设置 请求的缓存
-            File cacheFile = new File(WatchApplication.getInstance().getCacheDir(), "cache");
-            Cache cache = new Cache(cacheFile, 1024 * 1024 * 50); //50Mb
-
-
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(interceptor)
-                    .addInterceptor(new UserAgentInterceptor())
-                    .connectTimeout(15, TimeUnit.SECONDS)
-                    .cache(cache)
-                    .build();
-
+            initOkHttpClient();
             mRetrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .client(client)
+                    .client(mOkHttpClient)
                     .addConverterFactory(JsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
