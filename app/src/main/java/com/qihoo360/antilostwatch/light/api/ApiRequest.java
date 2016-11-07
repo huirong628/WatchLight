@@ -8,26 +8,45 @@ package com.qihoo360.antilostwatch.light.api;
  */
 
 public class ApiRequest {
+    public static final int REQUEST_METHOD_GET = 0;
+    public static final int REQUEST_METHOD_POST = 1;
+    public static final int REQUEST_METHOD_MULTIPART = 2;
 
     //请求方法
     //请求地址
     //header
     //请求参数
-    private String method;
+    private int method = REQUEST_METHOD_POST;//默认请求方法为：post
     private String url;
     private String headers;
     private ApiParam param;
 
-    public void setMethod(String method) {
+    public int getMethod() {
+        return method;
+    }
+
+    public void setMethod(int method) {
         this.method = method;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
     }
 
+    public String getHeaders() {
+        return headers;
+    }
+
     public void setHeaders(String headers) {
         this.headers = headers;
+    }
+
+    public ApiParam getParam() {
+        return param;
     }
 
     public void setParam(ApiParam param) {

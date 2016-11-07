@@ -58,7 +58,6 @@ public class Api {
             mRetrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(mOkHttpClient)
-                    .addConverterFactory(JsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
         }
