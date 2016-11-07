@@ -29,6 +29,8 @@ public class StringRequestBodyConverter<T> implements Converter<T, String> {
 
     @Override
     public String convert(T value) throws IOException {
+
+
         String count = String.valueOf(value);
         String p = getURLEncoder(encryptRc4(getEncodeParam(Integer.valueOf(count))));
         String result = "token=&p=" + p;

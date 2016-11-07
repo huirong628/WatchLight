@@ -1,11 +1,17 @@
 package com.qihoo360.antilostwatch.light.api;
 
 
+import android.text.TextUtils;
+import android.util.Base64;
+
+import com.qihoo360.antilostwatch.light.utils.EncryptRC4;
+import com.qihoo360.antilostwatch.light.utils.MD5Utils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-import retrofit2.Converter;
 
 /**
  * Created by HuirongZhang
@@ -21,15 +27,82 @@ public final class ApiParam {
         mParam.putAll(params);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        for (ConcurrentHashMap.Entry<String, Object> entry : mParam.entrySet()) {
-            if (result.length() > 0) result.append("&");
-            result.append(entry.getKey()).append("=").append(entry.getValue());
+    public String getFormatParams() {
+        String paramStr = getUrlEncodeParams();
+        return encryptParas(paramStr);
+    }
+
+    private String getUrlEncodeParams() {
+        if (mParam == null || mParam.isEmpty()) {
+            return "";
         }
-        System.out.println("ApiParam = " + result.toString());
-        return result.toString();
+
+        StringBuilder builder = new StringBuilder();
+        for (String key : mParam.keySet()) {
+            String value = mParam.get(key).toString();
+            if (value == null) {
+                value = "";
+            }
+            builder.append(key).append("=").append(getURLEncoder(value)).append("&");
+        }
+
+        String paramStr = builder.toString();
+        paramStr = paramStr.substring(0, paramStr.length() - 1);
+
+        return paramStr;
+    }
+
+    public static String getURLEncoder(String content) {
+        if (content == null || content.length() == 0) {
+            return content;
+        }
+        try {
+            content = URLEncoder.encode(content, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+        }
+        return content;
+    }
+
+    private String encryptParas(String param) {
+        String token = "";
+        StringBuilder builder = new StringBuilder();
+        builder.append("token=").append(getURLEncoder(token));
+        if (!(param == null || param.length() == 0)) {
+            String encryptPara = encryptRc4(param);
+            builder.append("&");
+            builder.append("p=");
+            builder.append(getURLEncoder(encryptPara));
+        }
+
+        return builder.toString();
+    }
+
+    public static String encryptRc4(String source) {
+        return encryptRc4(source, getEncryptKey());
+    }
+
+    public static String getEncryptKey() {
+        String token = "";
+        String qid = "";
+        String rc4key = MD5Utils.encode(token + MD5Utils.encode(qid));
+        return rc4key;
+    }
+
+    public static String encryptRc4(String source, String rc4key) {
+        if (TextUtils.isEmpty(source)) {
+            return "";
+        }
+        byte[] result = null;
+        try {
+            byte[] data = source.getBytes("UTF-8");
+            result = EncryptRC4.make(rc4key, data);
+        } catch (Exception e) {
+        }
+        String base64para = null;
+        if (result != null) {
+            base64para = new String(Base64.encode(result, Base64.NO_WRAP));
+        }
+        return base64para;
     }
 
     public static final class Builder {

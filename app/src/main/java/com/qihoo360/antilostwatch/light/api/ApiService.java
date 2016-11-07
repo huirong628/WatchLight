@@ -8,6 +8,7 @@ import com.qihoo360.antilostwatch.light.data.bean.talkbean.TopicList;
 import java.util.Map;
 
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -43,7 +44,7 @@ public interface ApiService {
      */
 
     @GET("talk/recommend/refresh")
-    Observable<PostList> loadPostList(@QueryMap Map<String, String> options);
+    Observable<PostList> loadPostList(@Query("") String param);
 
     @GET("talk/recommend/more")
     Observable<PostList> loadMorePostList(@QueryMap Map<String, String> options);
