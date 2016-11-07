@@ -1,4 +1,4 @@
-package com.qihoo360.antilostwatch.light.data.bean.talkbean;
+package com.qihoo360.antilostwatch.light.mode.bean;
 
 
 import com.google.gson.annotations.SerializedName;

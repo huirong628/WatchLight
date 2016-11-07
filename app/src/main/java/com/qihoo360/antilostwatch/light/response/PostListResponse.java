@@ -2,7 +2,7 @@ package com.qihoo360.antilostwatch.light.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.qihoo360.antilostwatch.light.data.bean.talkbean.PostBean;
+import com.qihoo360.antilostwatch.light.mode.bean.PostBean;
 
 import java.util.List;
 

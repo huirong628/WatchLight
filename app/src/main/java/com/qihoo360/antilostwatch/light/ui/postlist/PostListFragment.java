@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import com.qihoo360.antilostwatch.light.R;
 import com.qihoo360.antilostwatch.light.base.BaseFragment;
-import com.qihoo360.antilostwatch.light.data.bean.talkbean.PostList;
+import com.qihoo360.antilostwatch.light.mode.bean.PostList;
 
 /**
  * Created by HuirongZhang on 2016/10/26.

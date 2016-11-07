@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.qihoo360.antilostwatch.light.R;
-import com.qihoo360.antilostwatch.light.data.bean.talkbean.PostBean;
+import com.qihoo360.antilostwatch.light.mode.bean.PostBean;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.qihoo360.antilostwatch.light.api.service;
 
-import com.qihoo360.antilostwatch.light.data.bean.talkbean.PostList;
+import com.qihoo360.antilostwatch.light.mode.bean.PostList;
 import com.qihoo360.antilostwatch.light.data.bean.talkbean.TopicList;
 
 import java.util.Map;

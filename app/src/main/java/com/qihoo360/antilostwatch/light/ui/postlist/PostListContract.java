@@ -2,7 +2,7 @@ package com.qihoo360.antilostwatch.light.ui.postlist;
 
 import com.qihoo360.antilostwatch.light.base.BasePresenter;
 import com.qihoo360.antilostwatch.light.base.BaseView;
-import com.qihoo360.antilostwatch.light.data.bean.talkbean.PostList;
+import com.qihoo360.antilostwatch.light.mode.bean.PostList;
 
 /**
  * Created by HuirongZhang on 2016/10/26.
