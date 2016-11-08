@@ -37,23 +37,21 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
     public void loadPostList() {
         Subscription subscription = mTalkBiz.loadPostList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ApiObserver<PostList>() {
-
+                .subscribe(new Observer<PostList>() {
                     @Override
-                    public void onStart() {
-                        super.onStart();
-                        System.out.println("onStart()");
+                    public void onCompleted() {
+                        System.out.println("onCompleted()");
                     }
 
-
                     @Override
-                    public void onError(Throwable e, int errorCode, String errorMsg) {
+                    public void onError(Throwable e) {
                         System.out.println("onError()");
                     }
 
                     @Override
-                    public void onSuccess(PostList postList) {
-                        System.out.println("onSuccess()");
+                    public void onNext(PostList postList) {
+                        System.out.println("onNext()");
+                        mView.onPostListLoaded(postList);
                     }
                 });
         mCompositeSubscription.add(subscription);

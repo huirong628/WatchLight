@@ -3,6 +3,7 @@ package com.qihoo360.antilostwatch.light.api;
 
 import com.google.gson.Gson;
 
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -48,21 +49,21 @@ public class ApiWrapper extends Api {
                 .subscribe(observer);
     }*/
 
-    public Observable<Response> query(ApiRequest request) {
+    public Observable<Response<ResponseBody>> query(ApiRequest request) {
         System.out.println("ApiWrapper.query()");
         return Observable.just(request)
                 .subscribeOn(Schedulers.io())
-                .flatMap(new Func1<ApiRequest, Observable<Response>>() {
+                .flatMap(new Func1<ApiRequest, Observable<Response<ResponseBody>>>() {
                     @Override
-                    public Observable<Response> call(ApiRequest request) {
+                    public Observable<Response<ResponseBody>> call(ApiRequest request) {
                         return getApiResponse(request);
                     }
                 });
     }
 
-    private Observable<Response> getApiResponse(ApiRequest request) {
+    private Observable<Response<ResponseBody>> getApiResponse(ApiRequest request) {
         System.out.println("getApiResponse().start");
-        Observable<Response> observable = null;
+        Observable<Response<ResponseBody>> observable = null;
         int method = request.getMethod();
         if (method == ApiRequest.REQUEST_METHOD_GET) {
             System.out.println(request.getUrl() + "?" + request.getParam().getFormatParams());
@@ -75,7 +76,6 @@ public class ApiWrapper extends Api {
         System.out.println("getApiResponse().end");
         return observable;
     }
-
 
     protected <T> Observable<T> applySchedulers(Observable<T> responseObservable) {
         return responseObservable.subscribeOn(Schedulers.io())
