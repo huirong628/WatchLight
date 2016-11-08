@@ -6,6 +6,8 @@ import com.qihoo360.antilostwatch.light.mode.bean.PostList;
 import com.qihoo360.antilostwatch.light.mode.biz.TalkBiz;
 
 import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 /**
@@ -33,25 +35,28 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
 
     @Override
     public void loadPostList() {
-        mTalkBiz.loadPostList(new ApiObserver<PostList>(){
+        Subscription subscription = mTalkBiz.loadPostList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ApiObserver<PostList>() {
 
-            @Override
-            public void onStart() {
-                super.onStart();
-                System.out.println("onStart()");
-            }
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        System.out.println("onStart()");
+                    }
 
 
-            @Override
-            public void onError(Throwable e, int errorCode, String errorMsg) {
-                System.out.println("onError()");
-            }
+                    @Override
+                    public void onError(Throwable e, int errorCode, String errorMsg) {
+                        System.out.println("onError()");
+                    }
 
-            @Override
-            public void onSuccess(PostList postList) {
-                System.out.println("onSuccess()");
-            }
-        });
+                    @Override
+                    public void onSuccess(PostList postList) {
+                        System.out.println("onSuccess()");
+                    }
+                });
+        mCompositeSubscription.add(subscription);
     }
 
     @Override

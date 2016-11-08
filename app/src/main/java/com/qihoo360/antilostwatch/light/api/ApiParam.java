@@ -4,6 +4,7 @@ package com.qihoo360.antilostwatch.light.api;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.qihoo360.antilostwatch.light.utils.ApiUtil;
 import com.qihoo360.antilostwatch.light.utils.EncryptRC4;
 import com.qihoo360.antilostwatch.light.utils.MD5Utils;
 
@@ -24,6 +25,8 @@ public final class ApiParam {
     private Map<String, Object> mParam = new HashMap<>();
 
     public ApiParam(Map<String, Object> params) {
+        mParam.put("timestamp", ApiUtil.getTimestamp());
+        mParam.put("m2",ApiUtil.getM2());
         mParam.putAll(params);
     }
 

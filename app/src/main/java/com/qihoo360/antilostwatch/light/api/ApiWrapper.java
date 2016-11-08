@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 
 import retrofit2.Response;
 import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -15,9 +17,9 @@ import rx.schedulers.Schedulers;
  * 网络请求统一的一个入口
  */
 
-public class ApiWrapper<T> extends Api {
+public class ApiWrapper extends Api {
 
-    private ApiService mApiService;
+    private final ApiService mApiService;
     private final Gson mGson;
 
     public ApiWrapper() {
@@ -25,7 +27,7 @@ public class ApiWrapper<T> extends Api {
         mGson = new Gson();
     }
 
-    public void query(ApiRequest request, ApiObserver observer) {
+    /*public void query(ApiRequest request, ApiObserver<T> observer) {
         System.out.println("ApiWrapper.query()");
         Observable.just(request)
                 .subscribeOn(Schedulers.io())
@@ -44,10 +46,22 @@ public class ApiWrapper<T> extends Api {
                 })
                 .observeOn(Schedulers.immediate())
                 .subscribe(observer);
+    }*/
+
+    public Observable<Response> query(ApiRequest request) {
+        System.out.println("ApiWrapper.query()");
+        return Observable.just(request)
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Func1<ApiRequest, Observable<Response>>() {
+                    @Override
+                    public Observable<Response> call(ApiRequest request) {
+                        return getApiResponse(request);
+                    }
+                });
     }
 
     private Observable<Response> getApiResponse(ApiRequest request) {
-        System.out.println("getApiResponse()");
+        System.out.println("getApiResponse().start");
         Observable<Response> observable = null;
         int method = request.getMethod();
         if (method == ApiRequest.REQUEST_METHOD_GET) {
@@ -58,6 +72,40 @@ public class ApiWrapper<T> extends Api {
         } else if (method == ApiRequest.REQUEST_METHOD_MULTIPART) {
 
         }
+        System.out.println("getApiResponse().end");
         return observable;
+    }
+
+
+    protected <T> Observable<T> applySchedulers(Observable<T> responseObservable) {
+        return responseObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Func1<T, Observable<T>>() {
+                    @Override
+                    public Observable<T> call(T tResponse) {
+                        return flatResponse(tResponse);
+                    }
+                });
+    }
+
+    public <T> Observable<T> flatResponse(final T response) {
+        return Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                if (response != null) {
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onNext(response);
+                    }
+                } else {
+                    if (!subscriber.isUnsubscribed()) {
+                        //subscriber.onError(new APIException("自定义异常类型", "解析json错误或者服务器返回空的json"));
+                    }
+                    return;
+                }
+                if (!subscriber.isUnsubscribed()) {
+                    subscriber.onCompleted();
+                }
+            }
+        });
     }
 }

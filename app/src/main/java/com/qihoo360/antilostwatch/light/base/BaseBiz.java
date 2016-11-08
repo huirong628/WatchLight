@@ -1,5 +1,6 @@
 package com.qihoo360.antilostwatch.light.base;
 
+import com.google.gson.Gson;
 import com.qihoo360.antilostwatch.light.api.ApiWrapper;
 
 /**
@@ -8,10 +9,11 @@ import com.qihoo360.antilostwatch.light.api.ApiWrapper;
  */
 
 public class BaseBiz {
-
+    protected final Gson mGson;
     protected ApiWrapper mApiWrapper;
 
     public BaseBiz() {
         mApiWrapper = new ApiWrapper();
+        mGson = new Gson();
     }
 }

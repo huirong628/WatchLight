@@ -23,7 +23,7 @@ public class Api {
     /**
      * Retrofit2 的baseUlr 必须以 /（斜线） 结束，不然会抛出一个IllegalArgumentException,
      */
-    private static final String BASE_URL = "http://m.baby.360.cn/";
+    private static final String BASE_URL = "http://m.baby.360.cn";
 
     private static OkHttpClient mOkHttpClient;
     private static Retrofit mRetrofit;
@@ -37,6 +37,7 @@ public class Api {
         builder.addInterceptor(new UserAgentInterceptor())
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(15,TimeUnit.SECONDS)
                 .cache(cache);
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
