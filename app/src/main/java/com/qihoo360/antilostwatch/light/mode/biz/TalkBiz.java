@@ -45,22 +45,6 @@ public class TalkBiz extends BaseBiz {
                 .addParam("count", 20)
                 .build();
         request.setParam(param);
-        return mApiWrapper.query(request).flatMap(new Func1<Response<ResponseBody>, Observable<PostList>>() {
-
-            @Override
-            public Observable<PostList> call(Response<ResponseBody> responseBodyResponse) {
-                System.out.println("call,response.code = " + responseBodyResponse.code());
-                byte[] bytes = new byte[0];
-                String json = null;
-                try {
-                    bytes = responseBodyResponse.body().bytes();
-                    json = ApiUtil.decryptResult(bytes);
-                    System.out.println("json = " + json);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return Observable.just(mGson.fromJson(json, PostList.class));
-            }
-        });
+        return mApiWrapper.query(request, PostList.class);
     }
 }

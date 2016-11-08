@@ -2,6 +2,9 @@ package com.qihoo360.antilostwatch.light.api;
 
 
 import com.google.gson.Gson;
+import com.qihoo360.antilostwatch.light.utils.ApiUtil;
+
+import java.lang.reflect.Type;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -48,6 +51,32 @@ public class ApiWrapper extends Api {
                 .observeOn(Schedulers.immediate())
                 .subscribe(observer);
     }*/
+
+    public <T> Observable<T> query(ApiRequest request, final Type type) {
+        return Observable.just(request)
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Func1<ApiRequest, Observable<Response<ResponseBody>>>() {
+                    @Override
+                    public Observable<Response<ResponseBody>> call(ApiRequest request) {
+                        return getApiResponse(request);
+                    }
+                })
+                .flatMap(new Func1<Response<ResponseBody>, Observable<T>>() {
+                    @Override
+                    public Observable<T> call(Response<ResponseBody> response) {
+                        byte[] bytes = new byte[0];
+                        String json = null;
+                        try {
+                            bytes = response.body().bytes();
+                            json = ApiUtil.decryptResult(bytes);
+                            System.out.println("json = " + json);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return Observable.just((T) mGson.fromJson(json, type));
+                    }
+                });
+    }
 
     public Observable<Response<ResponseBody>> query(ApiRequest request) {
         System.out.println("ApiWrapper.query()");
