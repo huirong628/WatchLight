@@ -39,12 +39,7 @@ public class ApiWrapper<T> extends Api {
                     @Override
                     public Observable<T> call(Response response) {
                         System.out.println("call,response.code = " + response.code());
-                        T bean = null;
-                        int code = response.code();
-                        if (code == 200) {
-
-                        }
-                        return Observable.just(bean);
+                        return null;
                     }
                 })
                 .observeOn(Schedulers.immediate())

@@ -1,5 +1,7 @@
 package com.qihoo360.antilostwatch.light.ui.login;
 
+import android.content.Context;
+
 import com.qihoo360.antilostwatch.light.base.BasePresenter;
 import com.qihoo360.antilostwatch.light.base.BaseView;
 
@@ -14,6 +16,6 @@ public interface LoginContract {
     }
 
     interface Presenter extends BasePresenter {
-        void login(String name, String pwd);
+        void login(Context context, String name, String pwd);
     }
 }

@@ -41,7 +41,7 @@ public class LoginFragment extends BaseFragment<LoginContract.Presenter> impleme
     public void onClick(View v) {
         //todo login check
         if (v == mLoginBtn) {
-            mPresenter.login(mNameET.getText().toString(), mPwdET.getText().toString());
+            mPresenter.login(getActivity(),mNameET.getText().toString(), mPwdET.getText().toString());
         }
     }
 
