@@ -1,6 +1,5 @@
 package com.qihoo360.antilostwatch.light.base;
 
-import com.google.gson.Gson;
 import com.qihoo360.antilostwatch.light.api.ApiWrapper;
 
 /**
