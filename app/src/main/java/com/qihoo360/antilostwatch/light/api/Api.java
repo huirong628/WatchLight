@@ -15,7 +15,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 /**
- * Created by HuirongZhang on 2016/10/25.
+ * Created by HuirongZhang
+ * on 2016/10/25.
  */
 
 public class Api {
@@ -23,7 +24,7 @@ public class Api {
     /**
      * Retrofit2 的baseUlr 必须以 /（斜线） 结束，不然会抛出一个IllegalArgumentException,
      */
-    private static final String BASE_URL = "http://m.baby.360.cn";
+    private static final String BASE_URL = "http://m.baby.360.cn/";
 
     private static OkHttpClient mOkHttpClient;
     private static Retrofit mRetrofit;
@@ -38,6 +39,7 @@ public class Api {
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
                 .writeTimeout(15,TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
                 .cache(cache);
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -48,9 +50,7 @@ public class Api {
     }
 
     /**
-     * 获取Retrofit对象
-     *
-     * @return
+     * @return Retrofit对象
      */
     protected static Retrofit getRetrofit() {
         if (mRetrofit == null) {
