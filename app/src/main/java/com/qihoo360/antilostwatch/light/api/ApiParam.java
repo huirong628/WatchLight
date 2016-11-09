@@ -11,7 +11,9 @@ import com.qihoo360.antilostwatch.light.utils.MD5Utils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -26,7 +28,7 @@ public final class ApiParam {
 
     public ApiParam(Map<String, Object> params) {
         mParam.put("timestamp", ApiUtil.getTimestamp());
-        mParam.put("m2",ApiUtil.getM2());
+        mParam.put("m2", ApiUtil.getM2());
         mParam.putAll(params);
     }
 
@@ -39,19 +41,17 @@ public final class ApiParam {
         if (mParam == null || mParam.isEmpty()) {
             return "";
         }
-
         StringBuilder builder = new StringBuilder();
-        for (String key : mParam.keySet()) {
-            String value = mParam.get(key).toString();
-            if (value == null) {
-                value = "";
-            }
+        Set<Map.Entry<String, Object>> entrySet = mParam.entrySet();
+        Iterator<Map.Entry<String, Object>> iter = entrySet.iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String, Object> entry = iter.next();
+            String key = entry.getKey();
+            String value = entry.getValue().toString();
             builder.append(key).append("=").append(getURLEncoder(value)).append("&");
         }
-
         String paramStr = builder.toString();
         paramStr = paramStr.substring(0, paramStr.length() - 1);
-
         return paramStr;
     }
 
