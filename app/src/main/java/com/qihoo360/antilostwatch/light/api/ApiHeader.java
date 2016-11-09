@@ -15,6 +15,7 @@ public final class ApiHeader {
 
     private ApiHeader(Map<String, String> headers) {
         mHeaders.put("User-Agent", "kids-Android-5.3.2");
+        mHeaders.put("Cache-Control", "public,max-age=180");
         mHeaders.putAll(headers);
     }
 
