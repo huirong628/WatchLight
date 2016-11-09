@@ -18,7 +18,7 @@ public class ApiRequest {
     //请求参数
     private int method = REQUEST_METHOD_POST;//默认请求方法为：post
     private String url;
-    private String headers;
+    private ApiHeader headers;
     private ApiParam param;
 
     public int getMethod() {
@@ -37,12 +37,12 @@ public class ApiRequest {
         this.url = url;
     }
 
-    public String getHeaders() {
-        return headers;
+    public void setHeaders(ApiHeader headers) {
+        this.headers = headers;
     }
 
-    public void setHeaders(String headers) {
-        this.headers = headers;
+    public ApiHeader getHeaders() {
+        return headers;
     }
 
     public ApiParam getParam() {

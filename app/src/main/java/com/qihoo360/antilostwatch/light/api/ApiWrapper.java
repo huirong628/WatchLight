@@ -53,17 +53,20 @@ public class ApiWrapper extends Api {
     }*/
 
     public <T> Observable<T> query(ApiRequest request, final Type type) {
+        System.out.println("ApiWrapper.query() " + Thread.currentThread().getName());
         return Observable.just(request)
                 .subscribeOn(Schedulers.io())
                 .flatMap(new Func1<ApiRequest, Observable<Response<ResponseBody>>>() {
                     @Override
                     public Observable<Response<ResponseBody>> call(ApiRequest request) {
+                        System.out.println("current thread 1 " + Thread.currentThread().getName());
                         return getApiResponse(request);
                     }
                 })
                 .flatMap(new Func1<Response<ResponseBody>, Observable<T>>() {
                     @Override
                     public Observable<T> call(Response<ResponseBody> response) {
+                        System.out.println("current thread 2 " + Thread.currentThread().getName());
                         byte[] bytes = new byte[0];
                         String json = null;
                         try {
@@ -92,11 +95,13 @@ public class ApiWrapper extends Api {
 
     private Observable<Response<ResponseBody>> getApiResponse(ApiRequest request) {
         System.out.println("getApiResponse().start");
+        System.out.println("ApiWrapper.getApiResponse() " + Thread.currentThread().getName());
         Observable<Response<ResponseBody>> observable = null;
         int method = request.getMethod();
         if (method == ApiRequest.REQUEST_METHOD_GET) {
             System.out.println(request.getUrl() + "?" + request.getParam().getFormatParams());
-            observable = mApiService.queryByGet(request.getUrl() + "?" + request.getParam().getFormatParams());
+            //observable = mApiService.queryByGet(request.getUrl() + "?" + request.getParam().getFormatParams());
+            observable = mApiService.queryByGet(request.getHeaders().getHeaders(), request.getUrl() + "?" + request.getParam().getFormatParams());
         } else if (method == ApiRequest.REQUEST_METHOD_POST) {
 
         } else if (method == ApiRequest.REQUEST_METHOD_MULTIPART) {
