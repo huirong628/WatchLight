@@ -12,10 +12,12 @@ public interface PostListContract {
     interface View extends BaseView {
         void onPostListLoaded(PostList postList);
         void onMorePostListLoaded(PostList postList);
+        void onRefreshComplete();
+        void onLoadMoreComplete();
     }
 
     interface Presenter extends BasePresenter {
         void loadPostList();
-        void loadMorePostList();
+        void loadMorePostList(long id);
     }
 }

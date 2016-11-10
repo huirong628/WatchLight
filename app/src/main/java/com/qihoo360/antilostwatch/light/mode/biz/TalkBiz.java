@@ -51,13 +51,13 @@ public class TalkBiz extends BaseBiz {
         return mApiWrapper.query(request, PostList.class);
     }
 
-    public Observable<PostList> loadMorePostList() {
+    public Observable<PostList> loadMorePostList(long id) {
         ApiRequest request = new ApiRequest();
         request.setMethod(ApiRequest.REQUEST_METHOD_GET);
         request.setUrl(RECOMMEND_MORE_URL);
         ApiParam param = new ApiParam.Builder()
                 .addParam(KEY_COUNT, 20)
-                .addParam(KEY_LAST_ID, "")
+                .addParam(KEY_LAST_ID, id)
                 .build();
         request.setParam(param);
         return mApiWrapper.query(request, PostList.class);

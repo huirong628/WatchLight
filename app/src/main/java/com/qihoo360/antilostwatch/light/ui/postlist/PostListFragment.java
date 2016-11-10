@@ -7,35 +7,56 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
+import com.aspsine.swipetoloadlayout.OnRefreshListener;
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.qihoo360.antilostwatch.light.R;
 import com.qihoo360.antilostwatch.light.base.BaseFragment;
+import com.qihoo360.antilostwatch.light.mode.bean.PostBean;
 import com.qihoo360.antilostwatch.light.mode.bean.PostList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by HuirongZhang on 2016/10/26.
  */
 
-public class PostListFragment extends BaseFragment<PostListContract.Presenter> implements PostListContract.View {
-    private ListView mPostLV;
+public class PostListFragment extends BaseFragment<PostListContract.Presenter> implements PostListContract.View, OnRefreshListener, OnLoadMoreListener {
+    private SwipeToLoadLayout mSwipeToLoadLayout;
     private PostListAdapter mAdapter;
+    private List<PostBean> mPostList = new ArrayList<>();
 
     public static PostListFragment newInstance() {
         return new PostListFragment();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAdapter = new PostListAdapter(getActivity());
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.post_fragment, container, false);
-        mPostLV = (ListView) root.findViewById(R.id.post_lv);
-        return root;
+        return inflater.inflate(R.layout.post_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mAdapter = new PostListAdapter(getActivity());
-        mPostLV.setAdapter(mAdapter);
+        mSwipeToLoadLayout = (SwipeToLoadLayout) view.findViewById(R.id.swipeToLoadLayout);
+        ListView listView = (ListView) view.findViewById(R.id.swipe_target);
+
+        mSwipeToLoadLayout.setOnRefreshListener(this);
+
+        mSwipeToLoadLayout.setOnLoadMoreListener(this);
+
+        listView.setAdapter(mAdapter);
+
+        mSwipeToLoadLayout.setRefreshing(true);
+
         mPresenter.loadPostList();
     }
 
@@ -46,12 +67,42 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
 
     @Override
     public void onPostListLoaded(PostList postList) {
-        mAdapter.setData(postList.getPostList());
-        mAdapter.notifyDataSetChanged();
+        if (postList != null) {
+            mPostList.clear();
+            mPostList.addAll(postList.getPostList());
+            mAdapter.setData(mPostList);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onMorePostListLoaded(PostList postList) {
+        if (postList != null) {
+            mPostList.addAll(postList.getPostList());
+            mAdapter.setData(mPostList);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
 
+    @Override
+    public void onRefresh() {
+        System.out.println("onRefresh()");
+        mPresenter.loadPostList();
+    }
+
+    @Override
+    public void onRefreshComplete() {
+        mSwipeToLoadLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoadMore() {
+        System.out.println("onLoadMore()");
+        mPresenter.loadMorePostList(mPostList.get(mPostList.size() - 1).getId());
+    }
+
+    @Override
+    public void onLoadMoreComplete() {
+        mSwipeToLoadLayout.setLoadingMore(false);
     }
 }

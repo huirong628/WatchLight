@@ -5,7 +5,6 @@ import com.qihoo360.antilostwatch.light.base.BaseCommonPresenter;
 import com.qihoo360.antilostwatch.light.mode.bean.PostList;
 import com.qihoo360.antilostwatch.light.mode.biz.TalkBiz;
 
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -35,30 +34,65 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
 
     @Override
     public void loadPostList() {
+        System.out.println("loadPostList() " + Thread.currentThread().getName());
         Subscription subscription = mTalkBiz.loadPostList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PostList>() {
+                .subscribe(new ApiObserver<PostList>() {
                     @Override
-                    public void onCompleted() {
-                        System.out.println("onCompleted()");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("onError()  " + e.getMessage());
+                    public void onStart() {
+                        System.out.println("onStart()");
                     }
 
                     @Override
                     public void onNext(PostList postList) {
-                        System.out.println("onNext()");
+                        System.out.println("onNext(), " + Thread.currentThread().getName());
                         mView.onPostListLoaded(postList);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        System.out.println("onCompleted()");
+                        mView.onRefreshComplete();
+                    }
+
+                    @Override
+                    public void onError(Throwable e, int errorCode, String errorMsg) {
+                        System.out.println("onError()");
+                        mView.onRefreshComplete();
                     }
                 });
         mCompositeSubscription.add(subscription);
     }
 
     @Override
-    public void loadMorePostList() {
-        //mTalkBiz.loadMorePostList();
+    public void loadMorePostList(long id) {
+        System.out.println("loadMorePostList() " + Thread.currentThread().getName());
+        Subscription subscription = mTalkBiz.loadMorePostList(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ApiObserver<PostList>() {
+                    @Override
+                    public void onStart() {
+                        System.out.println("onStart()");
+                    }
+
+                    @Override
+                    public void onNext(PostList postList) {
+                        System.out.println("onNext(), " + Thread.currentThread().getName());
+                        mView.onMorePostListLoaded(postList);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        System.out.println("onCompleted()");
+                        mView.onLoadMoreComplete();
+                    }
+
+                    @Override
+                    public void onError(Throwable e, int errorCode, String errorMsg) {
+                        System.out.println("onError()");
+                        mView.onLoadMoreComplete();
+                    }
+                });
+        mCompositeSubscription.add(subscription);
     }
 }

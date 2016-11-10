@@ -11,14 +11,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class PostBean {
 
-    @SerializedName("post_id")
-    private long postId;
+    @SerializedName("id")
+    private long id;
 
     @SerializedName("title")
     private String title;
 
     @SerializedName("summary")
     private String summary;
+
+    public long getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;
