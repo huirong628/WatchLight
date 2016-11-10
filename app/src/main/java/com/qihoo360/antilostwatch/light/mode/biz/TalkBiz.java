@@ -16,8 +16,8 @@ import rx.Observable;
  */
 
 public class TalkBiz extends BaseBiz {
-    private static final String RECOMMEND_REFRESH_URL = "http://m.baby.360.cn/talk/recommend/refresh";
-    private static final String RECOMMEND_MORE_URL = "http://m.baby.360.cn/talk/recommend/more";
+    private static final String RECOMMEND_REFRESH_URL = "http://218.30.118.227/talk/recommend/refresh";
+    private static final String RECOMMEND_MORE_URL = "http://218.30.118.227/talk/recommend/more";
 
     private static final String KEY_COUNT = "count";
     private static final String KEY_LAST_ID = "last_id";
@@ -53,6 +53,7 @@ public class TalkBiz extends BaseBiz {
 
     public Observable<PostList> loadMorePostList(long id) {
         ApiRequest request = new ApiRequest();
+        ApiHeader header = new ApiHeader.Builder().build();
         request.setMethod(ApiRequest.REQUEST_METHOD_GET);
         request.setUrl(RECOMMEND_MORE_URL);
         ApiParam param = new ApiParam.Builder()
@@ -60,6 +61,7 @@ public class TalkBiz extends BaseBiz {
                 .addParam(KEY_LAST_ID, id)
                 .build();
         request.setParam(param);
+        request.setHeaders(header);
         return mApiWrapper.query(request, PostList.class);
     }
 }
