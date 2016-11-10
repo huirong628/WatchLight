@@ -116,6 +116,11 @@ public final class ApiParam {
             return this;
         }
 
+        public Builder addParam(String key, long value) {
+            params.put(key, value);
+            return this;
+        }
+
         public Builder addParam(String key, int value) {
             params.put(key, value);
             return this;
