@@ -26,11 +26,6 @@ public class LoginPresenter extends BaseCommonPresenter<LoginContract.View> impl
     }
 
     @Override
-    public void subscribe() {
-
-    }
-
-    @Override
     public void unSubscribe() {
 
     }

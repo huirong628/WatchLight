@@ -26,15 +26,17 @@ public class LoginFragment extends BaseFragment<LoginContract.Presenter> impleme
         return new LoginFragment();
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.login_fragment, container, false);
-        mNameET = (EditText) root.findViewById(R.id.name_et);
-        mPwdET = (EditText) root.findViewById(R.id.pwd_et);
-        mLoginBtn = (Button) root.findViewById(R.id.bt_go);
+    public int getLayoutId() {
+        return R.layout.login_fragment;
+    }
+
+    @Override
+    public void initView() {
+        mNameET = (EditText) mContentView.findViewById(R.id.name_et);
+        mPwdET = (EditText) mContentView.findViewById(R.id.pwd_et);
+        mLoginBtn = (Button) mContentView.findViewById(R.id.bt_go);
         mLoginBtn.setOnClickListener(this);
-        return root;
     }
 
     @Override
