@@ -5,7 +5,5 @@ package com.qihoo360.antilostwatch.light.base;
  */
 
 public interface BasePresenter {
-    void subscribe();
-
     void unSubscribe();
 }
