@@ -67,18 +67,23 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
 
     @Override
     public void onPostListLoaded(PostList postList) {
-        if (postList != null) {
-            mPostList.clear();
-            mPostList.addAll(postList.getPostList());
-            mAdapter.setData(mPostList);
-            mAdapter.notifyDataSetChanged();
-        }
+        mPostList.clear();
+        mPostList.addAll(postList.getPostList());
+        mAdapter.setData(mPostList);
+        mAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * 有异常时没有抛出来
+     *
+     * @param postList
+     */
     @Override
     public void onMorePostListLoaded(PostList postList) {
-        if (postList != null) {
-            mPostList.addAll(postList.getPostList());
+        System.out.println("onMorePostListLoaded()");
+        List<PostBean> postBeanList = postList.getPostList();
+        if (postBeanList.size() > 0) {
+            mPostList.addAll(postBeanList);
             mAdapter.setData(mPostList);
             mAdapter.notifyDataSetChanged();
         }
