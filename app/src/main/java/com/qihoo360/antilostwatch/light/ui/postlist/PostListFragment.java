@@ -1,10 +1,6 @@
 package com.qihoo360.antilostwatch.light.ui.postlist;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
@@ -32,26 +28,20 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mAdapter = new PostListAdapter(getActivity());
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.post_fragment, container, false);
+    public int getLayoutId() {
+        return R.layout.post_fragment;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mSwipeToLoadLayout = (SwipeToLoadLayout) view.findViewById(R.id.swipeToLoadLayout);
-        ListView listView = (ListView) view.findViewById(R.id.swipe_target);
+    public void initView() {
+        mSwipeToLoadLayout = (SwipeToLoadLayout) mContentView.findViewById(R.id.swipeToLoadLayout);
+        ListView listView = (ListView) mContentView.findViewById(R.id.swipe_target);
 
         mSwipeToLoadLayout.setOnRefreshListener(this);
 
         mSwipeToLoadLayout.setOnLoadMoreListener(this);
+
+        mAdapter = new PostListAdapter(mContext);
 
         listView.setAdapter(mAdapter);
 

@@ -23,16 +23,6 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
     }
 
     @Override
-    public void subscribe() {
-
-    }
-
-    @Override
-    public void unSubscribe() {
-
-    }
-
-    @Override
     public void loadPostList() {
         System.out.println("loadPostList() " + Thread.currentThread().getName());
         Subscription subscription = mTalkBiz.loadPostList()
@@ -40,6 +30,7 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
                 .subscribe(new ApiObserver<PostList>() {
                     @Override
                     public void onStart() {
+                        super.onStart();
                         System.out.println("onStart()");
                     }
 
@@ -60,6 +51,14 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
                         System.out.println("onError()");
                         mView.onRefreshComplete();
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("onError()");
+                        mView.onRefreshComplete();
+                        super.onError(e);
+
+                    }
                 });
         mCompositeSubscription.add(subscription);
     }
@@ -72,6 +71,7 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
                 .subscribe(new ApiObserver<PostList>() {
                     @Override
                     public void onStart() {
+                        super.onStart();
                         System.out.println("onStart()");
                     }
 
@@ -94,5 +94,13 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
                     }
                 });
         mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void unSubscribe() {
+        System.out.println("unSubscribe()");
+        if (mCompositeSubscription != null) {
+            mCompositeSubscription.unsubscribe();
+        }
     }
 }
