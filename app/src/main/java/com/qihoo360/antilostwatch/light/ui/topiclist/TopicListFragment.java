@@ -23,4 +23,14 @@ public class TopicListFragment extends BaseFragment<TopicListContract.Presenter>
     public void onTopicListLoaded() {
 
     }
+
+    @Override
+    public int getLayoutId() {
+        return 0;
+    }
+
+    @Override
+    public void initView() {
+
+    }
 }

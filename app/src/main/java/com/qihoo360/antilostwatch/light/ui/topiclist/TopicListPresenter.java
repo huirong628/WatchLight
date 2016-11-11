@@ -18,11 +18,6 @@ public class TopicListPresenter extends BaseCommonPresenter<TopicListFragment> i
     }
 
     @Override
-    public void subscribe() {
-
-    }
-
-    @Override
     public void unSubscribe() {
 
     }
