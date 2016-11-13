@@ -19,12 +19,20 @@ import java.util.List;
  */
 
 public class PostListFragment extends BaseFragment<PostListContract.Presenter> implements PostListContract.View, OnRefreshListener, OnLoadMoreListener {
+    private static final PostListFragment mInstance = new PostListFragment();
     private SwipeToLoadLayout mSwipeToLoadLayout;
     private PostListAdapter mAdapter;
     private List<PostBean> mPostList = new ArrayList<>();
 
+    /**
+     * 单例模式可以保证系统中一个类只有一个实例.
+     * <p>
+     * 实例存在多个会引起程序逻辑错误的时候
+     *
+     * @return
+     */
     public static PostListFragment newInstance() {
-        return new PostListFragment();
+        return mInstance;
     }
 
     @Override
