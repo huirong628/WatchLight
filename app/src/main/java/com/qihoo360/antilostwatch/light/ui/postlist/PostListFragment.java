@@ -41,9 +41,9 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
     }
 
     @Override
-    public void initView() {
-        mSwipeToLoadLayout = (SwipeToLoadLayout) mContentView.findViewById(R.id.swipeToLoadLayout);
-        ListView listView = (ListView) mContentView.findViewById(R.id.swipe_target);
+    public void initView(View view) {
+        mSwipeToLoadLayout = (SwipeToLoadLayout) view.findViewById(R.id.swipeToLoadLayout);
+        ListView listView = (ListView) view.findViewById(R.id.swipe_target);
 
         mSwipeToLoadLayout.setOnRefreshListener(this);
 

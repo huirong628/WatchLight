@@ -30,7 +30,7 @@ public class TopicListFragment extends BaseFragment<TopicListContract.Presenter>
     }
 
     @Override
-    public void initView() {
+    public void initView(View view) {
 
     }
 }

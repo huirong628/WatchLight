@@ -32,10 +32,10 @@ public class LoginFragment extends BaseFragment<LoginContract.Presenter> impleme
     }
 
     @Override
-    public void initView() {
-        mNameET = (EditText) mContentView.findViewById(R.id.name_et);
-        mPwdET = (EditText) mContentView.findViewById(R.id.pwd_et);
-        mLoginBtn = (Button) mContentView.findViewById(R.id.bt_go);
+    public void initView(View view) {
+        mNameET = (EditText) view.findViewById(R.id.name_et);
+        mPwdET = (EditText) view.findViewById(R.id.pwd_et);
+        mLoginBtn = (Button) view.findViewById(R.id.bt_go);
         mLoginBtn.setOnClickListener(this);
     }
 

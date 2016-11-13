@@ -13,14 +13,13 @@ import android.view.ViewGroup;
 
 public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements View.OnClickListener {
     public Context mContext;
-    public View mContentView;
     public T mPresenter;
 
     //返回布局资源ID
     public abstract int getLayoutId();
 
     //初始化fragment中的view
-    public abstract void initView();
+    public abstract void initView(View view);
 
     //创建对应的Presenter
     public void createPresenter(T presenter) {
@@ -59,10 +58,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (mContentView == null) {
-            mContentView = inflater.inflate(getLayoutId(), container, false);
-        }
-        return mContentView;
+        return inflater.inflate(getLayoutId(), container, false);
     }
 
     /**
@@ -72,7 +68,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
+        initView(view);
     }
 
     /**
