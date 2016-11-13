@@ -1,5 +1,6 @@
 package com.qihoo360.antilostwatch.light.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +12,7 @@ import android.view.ViewGroup;
  */
 
 public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements View.OnClickListener {
-    public BaseActivity mContext;
+    public Context mContext;
     public View mContentView;
     public T mPresenter;
 
@@ -29,6 +30,16 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     }
 
     /**
+     * Fragment与Activity关联后立刻调用
+     * @param context
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    /**
      * Bundle对象中获取一些在Activity中传过来的数据
      * 通常会在该方法中读取保存的状态，获取或初始化一些数据。
      * 在该方法中不要进行耗时操作，不然窗口不会显示。
@@ -38,7 +49,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = (BaseActivity) this.getActivity();
     }
 
     /**
@@ -93,16 +103,25 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         super.onResume();
     }
 
+    /**
+     * fragment有活跃变为不活跃
+     */
     @Override
     public void onPause() {
         super.onPause();
     }
 
+    /**
+     * fragment将从屏幕上消失。
+     */
     @Override
     public void onStop() {
         super.onStop();
     }
 
+    /**
+     * fragment不再使用
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
