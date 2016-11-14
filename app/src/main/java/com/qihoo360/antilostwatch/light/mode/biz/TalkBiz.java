@@ -17,8 +17,8 @@ import rx.Observable;
  */
 
 public class TalkBiz extends BaseBiz {
-    private static final String RECOMMEND_REFRESH_URL = "http://218.30.118.227/talk/recommend/refresh";
-    private static final String RECOMMEND_MORE_URL = "http://218.30.118.227/talk/recommend/more";
+    private static final String RECOMMEND_REFRESH_URL = "http://m.baby.360.cn/talk/recommend/refresh";
+    private static final String RECOMMEND_MORE_URL = "http://m.baby.360.cn/talk/recommend/more";
     private static final String REFRESH_HOTTEST_TOPIC_URL = "http://218.30.118.227/talk/topic/refreshhottesttopic";
 
     private static final String KEY_COUNT = "count";

@@ -13,4 +13,9 @@
 		android:id="@+id/topic_desc_tv"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"/>
+
+	<ImageView
+		android:id="@+id/topic_image_iv"
+		android:layout_width="50dp"
+		android:layout_height="50dp"/>
 </LinearLayout>

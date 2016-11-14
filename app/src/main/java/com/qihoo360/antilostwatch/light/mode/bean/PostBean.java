@@ -1,6 +1,7 @@
 package com.qihoo360.antilostwatch.light.mode.bean;
 
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -20,6 +21,10 @@ public class PostBean {
     @SerializedName("summary")
     private String summary;
 
+    @Expose
+    @SerializedName("image_url")
+    private String[] imageUrl;
+
     public long getId() {
         return id;
     }
@@ -30,5 +35,9 @@ public class PostBean {
 
     public String getSummary() {
         return summary;
+    }
+
+    public String[] getImageUrl() {
+        return imageUrl;
     }
 }

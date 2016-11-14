@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.qihoo360.antilostwatch.light.R;
 import com.qihoo360.antilostwatch.light.mode.bean.PostBean;
 
@@ -55,6 +57,7 @@ public class PostListAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.post_list_item, null);
             holder.title = (TextView) convertView.findViewById(R.id.post_title_tv);
             holder.summary = (TextView) convertView.findViewById(R.id.post_summary_tv);
+            holder.url = (ImageView) convertView.findViewById(R.id.post_image_iv);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -62,11 +65,20 @@ public class PostListAdapter extends BaseAdapter {
         PostBean bean = (PostBean) getItem(position);
         holder.title.setText(bean.getTitle() + " 第" + position + "条");
         holder.summary.setText(bean.getSummary());
+        String[] imageUrls = bean.getImageUrl();
+        if (imageUrls != null) {
+            Glide.with(mContext)
+                    .load(imageUrls[0])
+                    .fitCenter()
+                    .crossFade()
+                    .into(holder.url);
+        }
         return convertView;
     }
 
     static class ViewHolder {
-        public TextView title;
-        public TextView summary;
+        TextView title;
+        TextView summary;
+        ImageView url;
     }
 }
