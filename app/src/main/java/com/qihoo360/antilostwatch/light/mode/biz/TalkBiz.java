@@ -5,6 +5,7 @@ import com.qihoo360.antilostwatch.light.api.ApiParam;
 import com.qihoo360.antilostwatch.light.api.ApiRequest;
 import com.qihoo360.antilostwatch.light.base.BaseBiz;
 import com.qihoo360.antilostwatch.light.mode.bean.PostList;
+import com.qihoo360.antilostwatch.light.mode.bean.TopicList;
 
 
 import rx.Observable;
@@ -18,6 +19,7 @@ import rx.Observable;
 public class TalkBiz extends BaseBiz {
     private static final String RECOMMEND_REFRESH_URL = "http://218.30.118.227/talk/recommend/refresh";
     private static final String RECOMMEND_MORE_URL = "http://218.30.118.227/talk/recommend/more";
+    private static final String REFRESH_HOTTEST_TOPIC_URL = "http://218.30.118.227/talk/topic/refreshhottesttopic";
 
     private static final String KEY_COUNT = "count";
     private static final String KEY_LAST_ID = "last_id";
@@ -63,5 +65,18 @@ public class TalkBiz extends BaseBiz {
         request.setParam(param);
         request.setHeaders(header);
         return mApiWrapper.query(request, PostList.class);
+    }
+
+    public Observable<TopicList> loadTopicList() {
+        ApiRequest request = new ApiRequest();
+        ApiHeader header = new ApiHeader.Builder().build();
+        request.setMethod(ApiRequest.REQUEST_METHOD_GET);
+        request.setUrl(REFRESH_HOTTEST_TOPIC_URL);
+        ApiParam param = new ApiParam.Builder()
+                .addParam(KEY_COUNT, 20)
+                .build();
+        request.setParam(param);
+        request.setHeaders(header);
+        return mApiWrapper.query(request, TopicList.class);
     }
 }
