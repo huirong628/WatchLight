@@ -20,6 +20,8 @@
 		</activity>
 
 		<activity android:name=".ui.postlist.PostListActivity"></activity>
+
+		<activity android:name=".ui.topiclist.TopicListActivity"></activity>
 	</application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.qihoo360.antilostwatch.light.api.ApiCallBack;
 import com.qihoo360.antilostwatch.light.base.BaseCommonPresenter;
 import com.qihoo360.antilostwatch.light.ui.postlist.PostListActivity;
+import com.qihoo360.antilostwatch.light.ui.topiclist.TopicListActivity;
 
 import rx.Subscription;
 
@@ -21,7 +22,7 @@ public class LoginPresenter extends BaseCommonPresenter<LoginContract.View> impl
 
     @Override
     public void login(Context context, String name, String pwd) {
-        Intent intent = new Intent(context, PostListActivity.class);
+        Intent intent = new Intent(context, TopicListActivity.class);
         context.startActivity(intent);
     }
 

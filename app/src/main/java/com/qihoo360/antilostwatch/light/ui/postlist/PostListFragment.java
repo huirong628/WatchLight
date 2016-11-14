@@ -63,11 +63,6 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
     }
 
     @Override
-    public void onClick(View v) {
-
-    }
-
-    @Override
     public void onPostListLoaded(PostList postList) {
         mPostList.clear();
         mPostList.addAll(postList.getPostList());

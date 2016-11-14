@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  * Created by HuirongZhang on 2016/10/26.
  */
 
-public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements View.OnClickListener {
+public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
     public Context mContext;
     public T mPresenter;
 
