@@ -41,18 +41,20 @@ public final class ApiParam {
         if (mParam == null || mParam.isEmpty()) {
             return "";
         }
+        //优先使用该类，它比StringBuffer要快.
         StringBuilder builder = new StringBuilder();
+        //获取Map中所有的键值对
         Set<Map.Entry<String, Object>> entrySet = mParam.entrySet();
-        Iterator<Map.Entry<String, Object>> iter = entrySet.iterator();
-        while (iter.hasNext()) {
-            Map.Entry<String, Object> entry = iter.next();
-            String key = entry.getKey();
-            String value = entry.getValue().toString();
-            builder.append(key).append("=").append(getURLEncoder(value)).append("&");
+        //获取Map.Entry<String, Object>引用的唯一方法就是通过entrySet的迭代器来实现
+        Iterator<Map.Entry<String, Object>> iterator = entrySet.iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Object> entry = iterator.next();
+            if (builder.length() > 0) {
+                builder.append("&");
+            }
+            builder.append(entry.getKey()).append("=").append(getURLEncoder(entry.getValue().toString()));
         }
-        String paramStr = builder.toString();
-        paramStr = paramStr.substring(0, paramStr.length() - 1);
-        return paramStr;
+        return builder.toString();
     }
 
     public static String getURLEncoder(String content) {
