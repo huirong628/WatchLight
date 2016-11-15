@@ -43,7 +43,7 @@ public final class ApiParam {
         }
         //优先使用该类，它比StringBuffer要快.
         StringBuilder builder = new StringBuilder();
-        //获取Map中所有的键值对
+        //获取Map中所有的键值对(key-value映射集合)
         Set<Map.Entry<String, Object>> entrySet = mParam.entrySet();
         //获取Map.Entry<String, Object>引用的唯一方法就是通过entrySet的迭代器来实现
         Iterator<Map.Entry<String, Object>> iterator = entrySet.iterator();
@@ -52,7 +52,9 @@ public final class ApiParam {
             if (builder.length() > 0) {
                 builder.append("&");
             }
-            builder.append(entry.getKey()).append("=").append(getURLEncoder(entry.getValue().toString()));
+            if (entry.getValue() != null) {//添加保护，防止NPE，由于HashMap允许Key和Value为null
+                builder.append(entry.getKey()).append("=").append(getURLEncoder(entry.getValue().toString()));
+            }
         }
         return builder.toString();
     }
