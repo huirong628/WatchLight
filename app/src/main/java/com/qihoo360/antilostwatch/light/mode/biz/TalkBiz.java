@@ -17,12 +17,12 @@ import rx.Observable;
  */
 
 public class TalkBiz extends BaseBiz {
-    private static final String RECOMMEND_REFRESH_URL = "http://m.baby.360.cn/talk/recommend/refresh";
-    private static final String RECOMMEND_MORE_URL = "http://m.baby.360.cn/talk/recommend/more";
-    private static final String REFRESH_HOTTEST_TOPIC_URL = "http://218.30.118.227/talk/topic/refreshhottesttopic";
+    static final String RECOMMEND_REFRESH_URL = "http://m.baby.360.cn/talk/recommend/refresh";
+    static final String RECOMMEND_MORE_URL = "http://m.baby.360.cn/talk/recommend/more";
+    static final String REFRESH_HOTTEST_TOPIC_URL = "http://218.30.118.227/talk/topic/refreshhottesttopic";
 
-    private static final String KEY_COUNT = "count";
-    private static final String KEY_LAST_ID = "last_id";
+    static final String KEY_COUNT = "count";
+    static final String KEY_LAST_ID = "last_id";
 
     public TalkBiz() {
         super();
@@ -40,11 +40,15 @@ public class TalkBiz extends BaseBiz {
         mApiWrapper.query(request, observer);
     }*/
 
+    /**
+     * @return the pull to refresh post lists
+     */
     public Observable<PostList> loadPostList() {
         ApiRequest request = new ApiRequest();
         ApiHeader header = new ApiHeader.Builder().build();
         ApiParam param = new ApiParam.Builder()
                 .addParam(KEY_COUNT, 20)
+                .isNeedEncrypt(true)
                 .build();
         request.setMethod(ApiRequest.REQUEST_METHOD_GET);
         request.setUrl(RECOMMEND_REFRESH_URL);
@@ -53,6 +57,10 @@ public class TalkBiz extends BaseBiz {
         return mApiWrapper.query(request, PostList.class);
     }
 
+    /**
+     * @param id the last time and the last post id
+     * @return the load more post list
+     */
     public Observable<PostList> loadMorePostList(long id) {
         ApiRequest request = new ApiRequest();
         ApiHeader header = new ApiHeader.Builder().build();

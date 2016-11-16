@@ -16,9 +16,21 @@ public class ApiRequest {
     //请求地址
     //header
     //请求参数
-    private int method = REQUEST_METHOD_POST;//默认请求方法为：post
+    /**
+     * default http request method is post
+     */
+    private int method = REQUEST_METHOD_POST;
+    /**
+     * the request address
+     */
     private String url;
+    /**
+     * the request header
+     */
     private ApiHeader headers;
+    /**
+     * the request param
+     */
     private ApiParam param;
 
     public int getMethod() {
