@@ -17,8 +17,9 @@ import rx.Observable;
  */
 
 public class TalkBiz extends BaseBiz {
-    static final String RECOMMEND_REFRESH_URL = "http://m.baby.360.cn/talk/recommend/refresh";
-    static final String RECOMMEND_MORE_URL = "http://m.baby.360.cn/talk/recommend/more";
+    static final String HOST = "https://m.baby.360.cn/";
+    static final String RECOMMEND_REFRESH_URL = "talk/recommend/refresh";
+    static final String RECOMMEND_MORE_URL = "talk/recommend/more";
     static final String REFRESH_HOTTEST_TOPIC_URL = "http://218.30.118.227/talk/topic/refreshhottesttopic";
 
     static final String KEY_COUNT = "count";
@@ -51,7 +52,7 @@ public class TalkBiz extends BaseBiz {
                 .isNeedEncrypt(true)
                 .build();
         request.setMethod(ApiRequest.REQUEST_METHOD_GET);
-        request.setUrl(RECOMMEND_REFRESH_URL);
+        request.setUrl(HOST + RECOMMEND_REFRESH_URL);
         request.setHeaders(header);
         request.setParam(param);
         return mApiWrapper.query(request, PostList.class);
@@ -65,7 +66,7 @@ public class TalkBiz extends BaseBiz {
         ApiRequest request = new ApiRequest();
         ApiHeader header = new ApiHeader.Builder().build();
         request.setMethod(ApiRequest.REQUEST_METHOD_GET);
-        request.setUrl(RECOMMEND_MORE_URL);
+        request.setUrl(HOST + RECOMMEND_MORE_URL);
         ApiParam param = new ApiParam.Builder()
                 .addParam(KEY_COUNT, 20)
                 .addParam(KEY_LAST_ID, id)
