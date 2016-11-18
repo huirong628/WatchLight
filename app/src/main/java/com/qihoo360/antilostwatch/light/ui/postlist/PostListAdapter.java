@@ -39,7 +39,7 @@ public class PostListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public PostBean getItem(int position) {
         return mData.get(position);
     }
 
@@ -62,16 +62,18 @@ public class PostListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        PostBean bean = (PostBean) getItem(position);
-        holder.title.setText(bean.getTitle() + " 第" + position + "条");
-        holder.summary.setText(bean.getSummary());
-        String[] imageUrls = bean.getImageUrl();
-        if (imageUrls != null) {
-            Glide.with(mContext)
-                    .load(imageUrls[0])
-                    .fitCenter()
-                    .crossFade()
-                    .into(holder.url);
+        PostBean bean = getItem(position);
+        if (bean != null) {
+            holder.title.setText(bean.getTitle() + " 第" + position + "条");
+            holder.summary.setText(bean.getSummary());
+            String[] imageUrls = bean.getImageUrl();
+            if (imageUrls != null) {
+                Glide.with(mContext)
+                        .load(imageUrls[0])
+                        .fitCenter()
+                        .crossFade()
+                        .into(holder.url);
+            }
         }
         return convertView;
     }

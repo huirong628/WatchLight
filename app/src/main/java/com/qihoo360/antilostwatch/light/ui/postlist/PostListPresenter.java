@@ -48,13 +48,13 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
 
                     @Override
                     public void onError(Throwable e, int errorCode, String errorMsg) {
-                        System.out.println("onError()");
+                        System.out.println("onError(),e.getMessage()1 = " + e.getMessage());
                         mView.onRefreshComplete();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        System.out.println("onError()");
+                        System.out.println("onError().e.getMessage()2 = " + e.getMessage());
                         mView.onRefreshComplete();
                         super.onError(e);
 
