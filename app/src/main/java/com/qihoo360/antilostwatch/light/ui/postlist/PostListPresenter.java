@@ -5,6 +5,8 @@ import com.qihoo360.antilostwatch.light.base.BaseCommonPresenter;
 import com.qihoo360.antilostwatch.light.mode.bean.PostList;
 import com.qihoo360.antilostwatch.light.mode.biz.TalkBiz;
 
+import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -35,31 +37,34 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
                     }
 
                     @Override
-                    public void onNext(PostList postList) {
-                        System.out.println("onNext(), " + Thread.currentThread().getName());
+                    public void onStop() {
+                        super.onStop();
+                        mView.onRefreshComplete();
+                    }
+
+                    @Override
+                    public void onSuccess(PostList postList) {
                         mView.onPostListLoaded(postList);
                     }
 
                     @Override
-                    public void onCompleted() {
-                        System.out.println("onCompleted()");
-                        mView.onRefreshComplete();
-                    }
-
-                    @Override
-                    public void onError(Throwable e, int errorCode, String errorMsg) {
-                        System.out.println("onError(),e.getMessage()1 = " + e.getMessage());
-                        mView.onRefreshComplete();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("onError().e.getMessage()2 = " + e.getMessage());
-                        mView.onRefreshComplete();
-                        super.onError(e);
-
+                    public void onFail(Throwable throwable) {
+                        System.out.println(throwable.getMessage());
                     }
                 });
+
+        Observable.create(new Observable.OnSubscribe<Object>() {
+            @Override
+            public void call(Subscriber<? super Object> subscriber) {
+                /**
+                 * RxJavaHooks.onObservableStart(observable, observable.onSubscribe).call(subscriber);
+                 *
+                 * 该方法意味着事件开始发送
+                 */
+            }
+        });
+
+
         mCompositeSubscription.add(subscription);
     }
 
@@ -76,21 +81,19 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
                     }
 
                     @Override
-                    public void onNext(PostList postList) {
-                        System.out.println("onNext(), " + Thread.currentThread().getName());
+                    public void onStop() {
+                        super.onStop();
+                        mView.onLoadMoreComplete();
+                    }
+
+                    @Override
+                    public void onSuccess(PostList postList) {
                         mView.onMorePostListLoaded(postList);
                     }
 
                     @Override
-                    public void onCompleted() {
-                        System.out.println("onCompleted()");
-                        mView.onLoadMoreComplete();
-                    }
-
-                    @Override
-                    public void onError(Throwable e, int errorCode, String errorMsg) {
-                        System.out.println("onError()");
-                        mView.onLoadMoreComplete();
+                    public void onFail(Throwable throwable) {
+                        System.out.println(throwable.getMessage());
                     }
                 });
         mCompositeSubscription.add(subscription);
