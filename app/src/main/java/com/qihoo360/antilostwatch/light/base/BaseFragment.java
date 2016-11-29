@@ -35,7 +35,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        //this.mContext = context; this cause activity leaks
+        this.mContext = context.getApplicationContext();
     }
 
     /**
