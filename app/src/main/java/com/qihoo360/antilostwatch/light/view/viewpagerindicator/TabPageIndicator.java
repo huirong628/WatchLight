@@ -51,6 +51,18 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mViewPager.addOnPageChangeListener(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mViewPager.removeOnPageChangeListener(this);
+    }
+
     /**
      * bind the ViewPager with TabPageIndicator
      * <p>
@@ -60,6 +72,9 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
      */
     @Override
     public void setViewPager(ViewPager view) {
+        if (view == mViewPager) {
+            return;
+        }
         System.out.println("TabPageIndicator,setViewPager()");
         this.mViewPager = view;
         notifyDataSetChanged();
