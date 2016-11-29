@@ -34,4 +34,8 @@ public class TabView extends TextView {
     public int getIndex() {
         return index;
     }
+
+    public void setMaxTabWidth(int maxTabWidth) {
+        this.maxTabWidth = maxTabWidth;
+    }
 }

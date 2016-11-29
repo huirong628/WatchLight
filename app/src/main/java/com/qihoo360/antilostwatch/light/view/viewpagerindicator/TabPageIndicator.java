@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -48,7 +49,15 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         } else {
             mMaxTabWidth = -1;
         }
+
+        final int oldWidth = getMeasuredWidth();
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        final int newWidth = getMeasuredWidth();
+
+        if (lockedExpanded && oldWidth != newWidth) {
+            // Recenter the tab display if we're at a new (scrollable) size.
+            setCurrentIndex(mSelectedTabIndex);
+        }
     }
 
     @Override
@@ -114,8 +123,10 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
      */
     private void addTab(int index, CharSequence text) {
         final TabView tabView = new TabView(getContext());
+        tabView.setGravity(Gravity.CENTER);
         tabView.setIndex(index);
         tabView.setText(text);
+        tabView.setMaxTabWidth(mMaxTabWidth);
         tabView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

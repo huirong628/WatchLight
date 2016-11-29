@@ -13,7 +13,7 @@ import com.qihoo360.antilostwatch.light.ui.user.UserFragment;
  */
 
 public class TabPageIndicatorAdapter extends FragmentStatePagerAdapter {
-    private static final String[] TITLE = {"生活", "军事", "NBA", "科技", "数码", "头条", "情感", "房产"};
+    private static final String[] TITLE = {"推荐", "圈子", "活动", "直播"};
 
     public TabPageIndicatorAdapter(FragmentManager fm) {
         super(fm);
