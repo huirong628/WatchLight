@@ -1,9 +1,13 @@
 package com.qihoo360.antilostwatch.light.view.viewpagerindicator;
 
 import android.content.Context;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
+
+import static android.widget.FrameLayout.LayoutParams.*;
 
 /**
  * Created by HuirongZhang
@@ -11,22 +15,52 @@ import android.widget.HorizontalScrollView;
  */
 
 public class TabPageIndicator extends HorizontalScrollView implements PageIndicator {
+    private IcsLinearLayout mTabLayout;
+    private ViewPager mViewPager;
+
     public TabPageIndicator(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public TabPageIndicator(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mTabLayout = new IcsLinearLayout(context, attrs);
+        addView(mTabLayout, new LayoutParams(WRAP_CONTENT, MATCH_PARENT));
     }
 
-    public TabPageIndicator(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-
+    /**
+     * bind the ViewPager with TabPageIndicator
+     *
+     * @param view is bound to TabPageIndicator
+     */
     @Override
     public void setViewPager(ViewPager view) {
+        this.mViewPager = view;
+        notifyDataSetChanged();
+    }
 
+    private void notifyDataSetChanged() {
+        mTabLayout.removeAllViews();
+        PagerAdapter adapter = mViewPager.getAdapter();
+        int count = adapter.getCount();
+        for (int i = 0; i < count; i++) {
+            CharSequence title = adapter.getPageTitle(i);
+            addTab(i, title);
+        }
+        requestLayout();
+    }
+
+    /**
+     * add tab to the TabLayout
+     *
+     * @param index of the title
+     * @param text  of the fragment
+     */
+    private void addTab(int index, CharSequence text) {
+        TabView tabView = new TabView(getContext());
+        tabView.index = index;
+        tabView.setText(text);
+        mTabLayout.addView(tabView, new LinearLayout.LayoutParams(0, MATCH_PARENT, 1));
     }
 
     /**
