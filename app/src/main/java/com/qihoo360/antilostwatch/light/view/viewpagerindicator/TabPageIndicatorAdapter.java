@@ -1,8 +1,11 @@
 package com.qihoo360.antilostwatch.light.view.viewpagerindicator;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.qihoo360.antilostwatch.light.ui.user.UserFragment;
 
 /**
  * Created by HuirongZhang
@@ -23,7 +26,11 @@ public class TabPageIndicatorAdapter extends FragmentStatePagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-        return null;
+        UserFragment fragment = new UserFragment();
+        Bundle args = new Bundle();
+        args.putString("title", TITLE[position]);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     /**

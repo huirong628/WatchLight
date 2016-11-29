@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
@@ -17,6 +18,8 @@ import static android.widget.FrameLayout.LayoutParams.*;
 public class TabPageIndicator extends HorizontalScrollView implements PageIndicator {
     private IcsLinearLayout mTabLayout;
     private ViewPager mViewPager;
+    private int mSelectedTabIndex;
+    private int mMaxTabWidth;
 
     public TabPageIndicator(Context context) {
         this(context, null);
@@ -24,17 +27,40 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
 
     public TabPageIndicator(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mTabLayout = new IcsLinearLayout(context, attrs);
+        mTabLayout = new IcsLinearLayout(context, 0);
         addView(mTabLayout, new LayoutParams(WRAP_CONTENT, MATCH_PARENT));
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        System.out.println("TabPageIndicator,onMeasure()");
+        final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        final boolean lockedExpanded = widthMode == MeasureSpec.EXACTLY;
+        setFillViewport(lockedExpanded);
+
+        final int childCount = mTabLayout.getChildCount();
+        if (childCount > 1 && (widthMode == MeasureSpec.EXACTLY || widthMode == MeasureSpec.AT_MOST)) {
+            if (childCount > 2) {
+                mMaxTabWidth = (int) (MeasureSpec.getSize(widthMeasureSpec) * 0.4f);
+            } else {
+                mMaxTabWidth = MeasureSpec.getSize(widthMeasureSpec) / 2;
+            }
+        } else {
+            mMaxTabWidth = -1;
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     /**
      * bind the ViewPager with TabPageIndicator
+     * <p>
+     * 点击上面的Tab，下面的ViewPager切换；滑动ViewPager，上面的Tab跟着切换。
      *
      * @param view is bound to TabPageIndicator
      */
     @Override
     public void setViewPager(ViewPager view) {
+        System.out.println("TabPageIndicator,setViewPager()");
         this.mViewPager = view;
         notifyDataSetChanged();
     }
@@ -47,7 +73,22 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             CharSequence title = adapter.getPageTitle(i);
             addTab(i, title);
         }
+        setCurrentIndex(mSelectedTabIndex);
         requestLayout();
+    }
+
+    /**
+     * @param index
+     */
+    private void setCurrentIndex(int index) {
+        mSelectedTabIndex = index;
+        mViewPager.setCurrentItem(index);
+        final int tabCount = mTabLayout.getChildCount();
+        for (int i = 0; i < tabCount; i++) {
+            final View child = mTabLayout.getChildAt(i);
+            final boolean isSelected = (index == i);
+            child.setSelected(isSelected);
+        }
     }
 
     /**
@@ -57,9 +98,16 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
      * @param text  of the fragment
      */
     private void addTab(int index, CharSequence text) {
-        TabView tabView = new TabView(getContext());
-        tabView.index = index;
+        final TabView tabView = new TabView(getContext());
+        tabView.setIndex(index);
         tabView.setText(text);
+        tabView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int newSelectedIndex = tabView.getIndex();
+                mViewPager.setCurrentItem(newSelectedIndex);
+            }
+        });
         mTabLayout.addView(tabView, new LinearLayout.LayoutParams(0, MATCH_PARENT, 1));
     }
 
@@ -74,7 +122,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
      */
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        System.out.println("TabPageIndicator,onPageScrolled(),position =" + position);
     }
 
     /**
@@ -85,7 +133,8 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
      */
     @Override
     public void onPageSelected(int position) {
-
+        System.out.println("TabPageIndicator,onPageSelected(),position =" + position);
+        setCurrentIndex(position);
     }
 
     /**
@@ -100,6 +149,6 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
      */
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        System.out.println("TabPageIndicator,onPageScrollStateChanged(),state =" + state);
     }
 }

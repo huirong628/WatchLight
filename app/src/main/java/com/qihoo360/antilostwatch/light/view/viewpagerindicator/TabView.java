@@ -9,10 +9,26 @@ import android.widget.TextView;
  */
 
 public class TabView extends TextView {
-    public int index;
+    private int index;
+    private int maxTabWidth;
 
     public TabView(Context context) {
         super(context);
+    }
+
+    @Override
+    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        // Re-measure if we went beyond our maximum size.
+        if (maxTabWidth > 0 && getMeasuredWidth() > maxTabWidth) {
+            super.onMeasure(MeasureSpec.makeMeasureSpec(maxTabWidth, MeasureSpec.EXACTLY),
+                    heightMeasureSpec);
+        }
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public int getIndex() {
