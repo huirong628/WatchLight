@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.qihoo360.antilostwatch.light.ui.postlist.PostListFragment;
+import com.qihoo360.antilostwatch.light.ui.postlist.PostListPresenter;
 import com.qihoo360.antilostwatch.light.ui.user.UserFragment;
 
 /**
@@ -13,7 +15,7 @@ import com.qihoo360.antilostwatch.light.ui.user.UserFragment;
  */
 
 public class TabPageIndicatorAdapter extends FragmentStatePagerAdapter {
-    private static final String[] TITLE = {"推荐", "圈子", "活动", "直播"};
+    private static final String[] TITLE = {"首页", "消息", "发现", "我的"};
 
     public TabPageIndicatorAdapter(FragmentManager fm) {
         super(fm);
@@ -26,6 +28,11 @@ public class TabPageIndicatorAdapter extends FragmentStatePagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
+        if (position == 0) {
+            PostListFragment postFragment = PostListFragment.getInstance();
+            postFragment.createPresenter(new PostListPresenter(postFragment));
+            return postFragment;
+        }
         UserFragment fragment = new UserFragment();
         Bundle args = new Bundle();
         args.putString("title", TITLE[position]);

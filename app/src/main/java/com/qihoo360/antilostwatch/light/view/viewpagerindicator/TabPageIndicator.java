@@ -63,13 +63,17 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        mViewPager.addOnPageChangeListener(this);
+        if (mViewPager != null) {
+            mViewPager.addOnPageChangeListener(this);
+        }
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mViewPager.removeOnPageChangeListener(this);
+        if (mViewPager != null) {
+            mViewPager.removeOnPageChangeListener(this);
+        }
     }
 
     /**
@@ -125,13 +129,18 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         final TabView tabView = new TabView(getContext());
         tabView.setGravity(Gravity.CENTER);
         tabView.setIndex(index);
-        tabView.setText(text);
+        tabView.setTitle(text);
         tabView.setMaxTabWidth(mMaxTabWidth);
         tabView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int newSelectedIndex = tabView.getIndex();
-                mViewPager.setCurrentItem(newSelectedIndex);
+                /**
+                 * 从第一个到最后一个后会有滑屏的效果，即切换时会有切换时间。
+                 *
+                 * false to transition immediately
+                 */
+                mViewPager.setCurrentItem(newSelectedIndex, false);
             }
         });
         mTabLayout.addView(tabView, new LinearLayout.LayoutParams(0, MATCH_PARENT, 1));
