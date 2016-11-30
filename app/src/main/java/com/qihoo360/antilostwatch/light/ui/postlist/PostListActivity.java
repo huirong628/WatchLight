@@ -18,7 +18,7 @@ public class PostListActivity extends BaseActivity {
         PostListFragment postFragment = (PostListFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
         if (postFragment == null) {
-            postFragment = PostListFragment.getInstance();
+            postFragment = new PostListFragment();
         }
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), postFragment, R.id.contentFrame);
         postFragment.createPresenter(new PostListPresenter(postFragment));

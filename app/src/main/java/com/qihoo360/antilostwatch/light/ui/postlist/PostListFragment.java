@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 public class PostListFragment extends BaseFragment<PostListContract.Presenter> implements PostListContract.View, OnRefreshListener, OnLoadMoreListener {
-    private static PostListFragment mInstance = null;
+    //private static PostListFragment mInstance = null;
     private SwipeToLoadLayout mSwipeToLoadLayout;
     private PostListAdapter mAdapter;
     private List<PostBean> mPostList = new ArrayList<>();
@@ -37,13 +37,13 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
      * leaks MainActivity instance
      *
      * @return
-     */
+     *//*
     public static PostListFragment getInstance() {
         if (mInstance == null) {
             mInstance = new PostListFragment();
         }
         return mInstance;
-    }
+    }*/
 
     @Override
     public int getLayoutId() {
