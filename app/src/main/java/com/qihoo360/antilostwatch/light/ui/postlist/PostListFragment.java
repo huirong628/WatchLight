@@ -10,6 +10,7 @@ import com.qihoo360.antilostwatch.light.R;
 import com.qihoo360.antilostwatch.light.base.BaseFragment;
 import com.qihoo360.antilostwatch.light.mode.bean.PostBean;
 import com.qihoo360.antilostwatch.light.mode.bean.PostList;
+import com.qihoo360.antilostwatch.light.widget.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 
 public class PostListFragment extends BaseFragment<PostListContract.Presenter> implements PostListContract.View, OnRefreshListener, OnLoadMoreListener {
     //private static PostListFragment mInstance = null;
+    private LoadingLayout mLoadingLayout;
     private SwipeToLoadLayout mSwipeToLoadLayout;
     private PostListAdapter mAdapter;
     private List<PostBean> mPostList = new ArrayList<>();
@@ -44,7 +46,6 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
         }
         return mInstance;
     }*/
-
     @Override
     public int getLayoutId() {
         return R.layout.post_fragment;
@@ -52,6 +53,7 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
 
     @Override
     public void initView(View view) {
+        mLoadingLayout = (LoadingLayout) view.findViewById(R.id.loadingLayout);
         mSwipeToLoadLayout = (SwipeToLoadLayout) view.findViewById(R.id.swipeToLoadLayout);
         ListView listView = (ListView) view.findViewById(R.id.swipe_target);
 
@@ -69,7 +71,13 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
     }
 
     @Override
+    public void onLoading() {
+        mLoadingLayout.setStatus(LoadingLayout.STATUS_LOADING);
+    }
+
+    @Override
     public void onPostListLoaded(PostList postList) {
+        mLoadingLayout.setStatus(LoadingLayout.STATUS_SUCCESS);
         List<PostBean> postBeanList = postList.getPostList();
         if (!postBeanList.isEmpty()) {
             mPostList.clear();
@@ -115,5 +123,15 @@ public class PostListFragment extends BaseFragment<PostListContract.Presenter> i
     @Override
     public void onLoadMoreComplete() {
         mSwipeToLoadLayout.setLoadingMore(false);
+    }
+
+    @Override
+    public void onNetWork() {
+        mLoadingLayout.setStatus(LoadingLayout.STATUS_NETWORK);
+    }
+
+    @Override
+    public void onError() {
+        mLoadingLayout.setStatus(LoadingLayout.STATUS_ERROR);
     }
 }

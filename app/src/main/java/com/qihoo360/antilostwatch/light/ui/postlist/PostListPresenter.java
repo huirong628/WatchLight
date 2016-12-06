@@ -34,22 +34,30 @@ public class PostListPresenter extends BaseCommonPresenter<PostListFragment> imp
                     public void onStart() {
                         super.onStart();
                         System.out.println("onStart()");
+                        mView.onLoading();
                     }
 
                     @Override
                     public void onStop() {
                         super.onStop();
+                        System.out.println("onStop()");
                         mView.onRefreshComplete();
                     }
 
                     @Override
                     public void onSuccess(PostList postList) {
+                        System.out.println("onSuccess()");
                         mView.onPostListLoaded(postList);
                     }
 
                     @Override
                     public void onFail(Throwable throwable) {
+                        System.out.println("onFail()");
                         System.out.println(throwable.getMessage());
+                        //如果是网络问题，如：超时
+                        mView.onNetWork();
+                        //如果是别的错误，如：数据解析出错
+                        mView.onError();
                     }
                 });
 

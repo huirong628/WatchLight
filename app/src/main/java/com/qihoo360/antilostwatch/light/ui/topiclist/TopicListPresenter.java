@@ -33,31 +33,26 @@ public class TopicListPresenter extends BaseCommonPresenter<TopicListFragment> i
                         System.out.println("onStart()");
                     }
 
+                    /**
+                     * 处理成功时调用
+                     *
+                     * @param topicList
+                     */
                     @Override
-                    public void onNext(TopicList topicList) {
-                        System.out.println("onNext(), " + Thread.currentThread().getName());
-                        mView.onTopicListLoaded(topicList);
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        System.out.println("onCompleted()");
-                        mView.onRefreshComplete();
-                    }
-
-                    @Override
-                    public void onError(Throwable e, int errorCode, String errorMsg) {
-                        System.out.println("onError()");
-                        mView.onRefreshComplete();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("onError(),e.getMessage()" + e.getMessage());
-                        mView.onRefreshComplete();
-                        super.onError(e);
+                    public void onSuccess(TopicList topicList) {
 
                     }
+
+                    /**
+                     * 处理失败时调用
+                     *
+                     * @param throwable
+                     */
+                    @Override
+                    public void onFail(Throwable throwable) {
+
+                    }
+
                 });
         mCompositeSubscription.add(subscription);
     }

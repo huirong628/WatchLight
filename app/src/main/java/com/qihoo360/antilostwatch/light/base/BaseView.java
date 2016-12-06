@@ -5,5 +5,9 @@ package com.qihoo360.antilostwatch.light.base;
  */
 
 public interface BaseView {
+    void onLoading();
 
+    void onNetWork();
+
+    void onError();
 }

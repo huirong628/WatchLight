@@ -11,13 +11,17 @@ import com.qihoo360.antilostwatch.light.mode.bean.PostList;
 public interface PostListContract {
     interface View extends BaseView {
         void onPostListLoaded(PostList postList);
+
         void onMorePostListLoaded(PostList postList);
+
         void onRefreshComplete();
+
         void onLoadMoreComplete();
     }
 
     interface Presenter extends BasePresenter {
         void loadPostList();
+
         void loadMorePostList(long id);
     }
 }
